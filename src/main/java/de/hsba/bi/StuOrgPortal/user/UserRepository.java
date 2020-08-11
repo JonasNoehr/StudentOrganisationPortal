@@ -1,11 +1,11 @@
 package de.hsba.bi.StuOrgPortal.user;
 
-public class UserRepository {
-    public static void admin(String[] args) {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-        String userName = "Admin";
-        String password = "Passwort";
-        
-    }
+@Repository
+
+interface UserRepository extends JpaRepository<User, Long> {
+
 
 }
