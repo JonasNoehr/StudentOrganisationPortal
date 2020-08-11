@@ -6,7 +6,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 
 @EnableWebSecurity
-
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -15,10 +14,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+            .loginPage("/login")
                 .permitAll()
                 .and()
-                .logout()
+            .logout()
                 .permitAll();
     }
 
