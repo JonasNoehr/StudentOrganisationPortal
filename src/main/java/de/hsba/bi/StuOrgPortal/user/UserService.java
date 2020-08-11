@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 public class UserService {
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     private void userCreation (String name, String password, String role) {
         userRepository.save(new User(name, password, role));
