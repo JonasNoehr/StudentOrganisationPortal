@@ -12,16 +12,20 @@ import org.springframework.stereotype.Service;
 
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private void userCreation (String name, String password, String role) {
-        userRepository.save(new User(name, password, role));
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    private void userCreation (Long id, String firstName, String lastName, String password, String role) {
+        userRepository.save(new User(id, firstName, lastName, password, role ));
     }
 
     @EventListener(ApplicationStartedEvent.class)
 
     public void adminInit() {
-        userCreation("Administrator", "123456", User.ADMIN_ROLE);
+        userCreation(0L, "Administrator", "", "Admin", "ADMIN" );
     }
 }
 
