@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 
 @Entity
@@ -13,6 +16,9 @@ import javax.persistence.*;
 @Setter
 
 public class User {
+
+    public User() {
+    }
 
     public static String ADMIN_ROLE = "ADMIN";
     public static String LECTURER_ROLE = "LECTURER";
@@ -23,6 +29,8 @@ public class User {
     @Setter
     private Long id;
 
+    private String userName;
+
     @Basic(optional = false)
     private String firstName;
 
@@ -32,12 +40,13 @@ public class User {
     @Basic(optional = false)
     private String password;
 
-    private final String role;
+    private String role;
 
 
 
-    public User(Long id, String firstName, String lastName, String password, String role) {
+    public User(Long id, String userName, String firstName, String lastName, String password, String role) {
         this.id = id;
+        this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;

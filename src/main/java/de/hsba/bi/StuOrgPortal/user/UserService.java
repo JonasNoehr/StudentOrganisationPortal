@@ -18,14 +18,14 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    private void userCreation (Long id, String firstName, String lastName, String password, String role) {
-        userRepository.save(new User(id, firstName, lastName, password, role ));
+    private void userCreation (Long id, String userName, String firstName, String lastName, String password, String role) {
+        userRepository.save(new User(id, userName, firstName, lastName, password, role ));
     }
 
     @EventListener(ApplicationStartedEvent.class)
 
     public void adminInit() {
-        userCreation(0L, "Administrator", "", "Admin", "ADMIN" );
+        userCreation(0L, "Administrator", "", "", "IAMGOD", "ADMIN" );
     }
 }
 
