@@ -17,7 +17,13 @@ import javax.persistence.Id;
 
 public class User {
 
-    public User() {
+    public User(Long id, String userName, String firstName, String lastName, String password, String role) {
+        this.id = id;
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.role = role;
     }
 
     public static String ADMIN_ROLE = "ADMIN";
@@ -42,16 +48,6 @@ public class User {
 
     private String role;
 
-
-
-    public User(Long id, String userName, String firstName, String lastName, String password, String role) {
-        this.id = id;
-        this.userName = userName;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.role = role;
-    }
 
     public Long getId() {
         return id;

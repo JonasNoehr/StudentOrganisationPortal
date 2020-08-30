@@ -5,7 +5,8 @@
 >
 <head>
     <title>Herzlich Willkommen</title>
-    <link href="../static/Style.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/static/Style.css}" rel="stylesheet" type="text/css"/>
+    <meta charset="UTF-8">
 </head>
 <body>
     <div><h1>Herzlich Willkomen auf Ihrem Studienorganisationsportal</h1></div>
@@ -13,20 +14,25 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">zum Login</a>
+                    <a th:href="@{~/templates/login.html}" th:text="#{label.form.loginLink}" >zum Login</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- TODO befüllen der Liste aufbauen -->
+    <!-- TODO befüllen der Tabelle aufbauen -->
 
     <div class="CourseList">
-        <ul>
-        <li th:each="courseList: $(courseList)" >
-           <a th:href="@{/courseList/{id}(id=${course.id})}" th:text="${course.name}"></a>
-        </li>
-        </ul>
+        <table>
+            <tr>
+                <th> Liste aller verfügbaren Kurse </th>
+            </tr>
+            <tr>
+                <td th:each="courseList: $(courseList)" >
+                <a th:href="@{/courseList/{id}(id=${course.id})}" th:text="${course.name}"></a>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>
