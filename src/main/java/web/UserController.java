@@ -1,5 +1,5 @@
 package web;
-
+/*
 import de.hsba.bi.StuOrgPortal.user.UserService;
 import org.springframework.stereotype.Controller;
 
@@ -14,3 +14,4 @@ public class UserController {
     }
 }
 
+*/

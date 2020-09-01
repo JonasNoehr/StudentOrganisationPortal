@@ -1,31 +1,19 @@
 package de.hsba.bi.StuOrgPortal.course;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicLong;
+//import de.hsba.bi.StuOrgPortal.user.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.List;
 
 @Repository
-public class CourseRepository {
+interface CourseRepository extends JpaRepository<Course, Long> {
 
-    private Map<Long, Course> store = new TreeMap<>();
-    private AtomicLong sequence = new AtomicLong();
-
-    Course save(Course course) {
-        Long id = sequence.incrementAndGet();
-        course.setId(id);
-        store.put(id, course);
-        return course;
-    }
-
-    Optional<Course> findById(Long id) {
-        return Optional.ofNullable(store.get(id));
-    }
-
-    Collection<Course> findAll() {
-        return store.values();
-    }
+    @Query("select distinct j from Course j join j.entries e where e.description like %:search")
+    List<Course> findByEntryDescription(@Param("search") String search);
 }
