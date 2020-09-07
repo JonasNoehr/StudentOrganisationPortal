@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <body>
 <div layout:fragment="content">
-  <div class="my-4">
-    <h1 th:text="${'Kurse ' + course.name}"></h1>
-  </div>
+    <div class="my-4">
+        <h1 th:text="${'Kurs ' + course.name}"></h1>
+        <form th:action="${'/courses/' + course.id + '/delete'}" method="post" class="form">
+            <button type="submit" class="btn btn-danger">Löschen</button>
+        </form>
+    </div>
 
-  <table th:if="${journal != null and !course.entries.empty}" class="table">
-    <tr>
-      <th>ausgegeben von</th>
-      <th>Betrag</th>
-      <th>ausgegeben für</th>
-    </tr>
-    <tr th:each="entry : ${course.entries}">
-      <td th:text="${entry.title}"></td>
-    </tr>
-  </table>
-  </div>
+    <table th:if="${course != null and !course.entries.empty}" class="table">
+        <tr>
+            <th>Kursname</th>
+            <th>Beschreibung</th>
+            <th>Max. Teilnehmerzahl</th>
+            <th>Raum Nummer</th>
+        </tr>
+        <tr th:each="entry : ${course.entries}">
+            <td th:text="${entry.courseName}"></td>
+            <td th:text="${entry.courseDescription}"></td>
+            <td th:text="${entry.maxParticipants}"></td>
+            <td th:text="${entry.roomNumber}"></td>
+        </tr>
+    </table>
 
-
-  <hr/>
-  <p class="small">
-    <a href="/courses/">Index</a>
-  </p>
-
+    <form th:action="${'/courses/' + course.id}" method="post" class="form-inline">
+        <input name="courseName" type="text" placeholder="Name" class="form-control mr-2">
+        <input name="courseDescription" type="text" placeholder="Beschreibung" class="form-control mr-2">
+        <input name="maxParticipants" type="number" placeholder="Max. Teilnehmerzahl" class="form-control mr-2">
+        <input name="roomNumber" type="text" placeholder="Raum Nummer" class="form-control mr-2">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
 </div>
 </body>
 </html>

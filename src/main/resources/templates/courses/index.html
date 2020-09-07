@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <body>
 <div layout:fragment="content">
     <div class="my-4">
-        <h1>Kurse</h1>
+
+
+        <h1>Kurs</h1>
     </div>
 
     <ul class="list-unstyled">
-        <li th:each="course : ${courses}">
+        <li th:each="course : ${course}">
             <a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a>
         </li>
     </ul>
 
-    <form action="/courses" method="post" class="form-inline">
+    <form th:action="${'/courses/'}" method="post" class="form-inline">
         <input name="name" type="text" placeholder="Name" class="form-control mr-2">
         <button type="submit" class="btn btn-primary">Anlegen</button>
     </form>
-
 </div>
 </body>
 </html>

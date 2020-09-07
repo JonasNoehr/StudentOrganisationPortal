@@ -9,11 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Entity
 public class CourseEntry {
 
     @Id
@@ -21,43 +22,26 @@ public class CourseEntry {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    private Long lecturerId;
-
-    private Long studentId;
-
     @ManyToOne(optional = false)
     private Course course;
 
-    private String title;
+    private String courseName;
 
-    private String description;
+    private String courseDescription;
 
-    private String status;
+    // TODO Status
 
-    private Integer roomNr;
-
+    // Todo muss größer als 0 sein
     private Integer maxParticipants;
 
-    private Double averageGrade;
+    private String roomNumber;
 
-    private Double averageRating;
+    private BigDecimal courseAverage;
 
-    private String examType;
-
-    private Double duration;
-
-    private Integer weeklyHours;
-
-    public CourseEntry(String title, String description, String status, Integer roomNr, Integer maxParticipants, Double averageGrade, Double averageRating, String examType, Double duration, Integer weeklyHours) {
-        this.title = title;
-        this.description = description;
-        this.status = status;
-        this.roomNr = roomNr;
+    public CourseEntry(String courseName, String courseDescription, Integer maxParticipants, String roomNumber) {
+        this.courseName = courseName;
+        this.courseDescription = courseDescription;
         this.maxParticipants = maxParticipants;
-        this.averageGrade = averageGrade;
-        this.averageRating = averageGrade;
-        this.examType = examType;
-        this.duration = duration;
-        this.weeklyHours = weeklyHours;
+        this.roomNumber = roomNumber;
     }
 }
