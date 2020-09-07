@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <body>
 <div layout:fragment="content">
     <div class="my-4">
+        <div th:replace="layout/menu :: menu"></div>
         <h1 th:text="${'Kurs ' + course.name}"></h1>
         <form th:action="${'/courses/' + course.id + '/delete'}" method="post" class="form">
             <button type="submit" class="btn btn-danger">Löschen</button>
