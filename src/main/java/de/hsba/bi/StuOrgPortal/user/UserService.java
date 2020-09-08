@@ -1,0 +1,48 @@
+package de.hsba.bi.StuOrgPortal.user;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+@Transactional
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public void init() {
+        createUser("Anne", "123456", User.STUDENT_ROLE);
+        createUser("Benedikt", "123456", User.STUDENT_ROLE);
+        createUser("Charlotte", "123456", User.STUDENT_ROLE);
+        createUser("Xenia", "123456", User.STUDENT_ROLE);
+        createUser("Yves", "123456", User.STUDENT_ROLE);
+        createUser("Zoe", "123456", User.STUDENT_ROLE);
+        createUser("admin", "password", User.ADMIN_ROLE);
+    }
+
+    private void createUser(String name, String password, String role) {
+        userRepository.save(new User(name, passwordEncoder.encode(password), role));
+    }
+    public User createNewUser(String name, String password) {
+        User user = new User();
+        user.setRole(User.STUDENT_ROLE);
+        return userRepository.save(user);
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public List<User> findStudents() {
+        return userRepository.findByRole(User.STUDENT_ROLE);
+    }
+
+    public User findCurrentUser() {
+        return userRepository.findByName(User.getCurrentUsername());
+    }
+}
