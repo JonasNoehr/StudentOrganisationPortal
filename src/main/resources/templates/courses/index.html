@@ -17,7 +17,7 @@
         </li>
     </ul>
 
-    <form th:action="${'/courses/'}" method="post" class="form-inline">
+    <form th:action="${'/courses/'}" sec:authorize="hasRole('LECTURER')" method="post" class="form-inline">
         <input name="name" type="text" placeholder="Name" class="form-control mr-2">
         <button type="submit" class="btn btn-primary">Anlegen</button>
     </form>

@@ -8,7 +8,7 @@
     <div class="my-4">
         <div th:replace="layout/menu :: menu"></div>
         <h1 th:text="${'Kurs ' + course.name}"></h1>
-        <form th:action="${'/courses/' + course.id + '/delete'}" method="post" class="form">
+        <form th:action="${'/courses/' + course.id + '/delete'}" sec:authorize="hasRole('LECTURER')" method="post" class="form">
             <button type="submit" class="btn btn-danger">Löschen</button>
         </form>
     </div>
@@ -28,7 +28,7 @@
         </tr>
     </table>
 
-    <form th:action="${'/courses/' + course.id}" method="post" class="form-inline">
+    <form th:action="${'/courses/' + course.id}" sec:authorize="hasRole('LECTURER')" method="post" class="form-inline">
         <input name="courseName" type="text" placeholder="Name" class="form-control mr-2">
         <input name="courseDescription" type="text" placeholder="Beschreibung" class="form-control mr-2">
         <input name="maxParticipants" type="number" placeholder="Max. Teilnehmerzahl" class="form-control mr-2">

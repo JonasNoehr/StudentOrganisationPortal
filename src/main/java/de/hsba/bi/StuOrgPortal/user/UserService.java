@@ -21,17 +21,15 @@ public class UserService {
         createUser("Charlotte", "123456", User.STUDENT_ROLE);
         createUser("Xenia", "123456", User.STUDENT_ROLE);
         createUser("Yves", "123456", User.STUDENT_ROLE);
-        createUser("Zoe", "123456", User.STUDENT_ROLE);
+        createUser("Zoe", "123456", User.LECTURER_ROLE);
         createUser("admin", "password", User.ADMIN_ROLE);
     }
 
     private void createUser(String name, String password, String role) {
         userRepository.save(new User(name, passwordEncoder.encode(password), role));
     }
-    public User createNewUser(String name, String password) {
-        User user = new User();
-        user.setRole(User.STUDENT_ROLE);
-        return userRepository.save(user);
+    public void createNewLecturerUser(String name, String password) {
+        userRepository.save(new User(name, passwordEncoder.encode(password), User.LECTURER_ROLE));
     }
 
     public List<User> findAll() {

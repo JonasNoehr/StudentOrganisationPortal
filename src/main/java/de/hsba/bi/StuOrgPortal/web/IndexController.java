@@ -22,4 +22,5 @@ public class IndexController {
         return auth instanceof AnonymousAuthenticationToken ? "login" : "redirect:/";
     }
 
+
 }
