@@ -28,19 +28,17 @@ public class CourseService {
         }
         userService.init();
         List<User> users = userService.findAll();
-        User anne = users.get(0);
-        User benedikt = users.get(1);
-        User charlotte = users.get(2);
+        User zoe = users.get(5);
 
-        Course course = new Course();
+        Course course = new Course(zoe);
         course.setName("Mathe");
-        addCourseEntry(course, new CourseEntry("Mathematik", "Mathe für WI", 20, "R201"));
+        addCourseEntry(course, new CourseEntry("Mathematik", "Mathe für WI", zoe, 20, "R201"));
 
         repository.save(course);
     }
 
-    public Course createCourse(String name) {
-        Course course = new Course();
+    public Course createCourse(String name, User currentUser) {
+        Course course = new Course(currentUser);
         course.setName(name);
         return repository.save(course);
     }
