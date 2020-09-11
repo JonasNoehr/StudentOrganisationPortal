@@ -27,16 +27,16 @@ public class CourseController {
         return "courses/index";
     }
 
+    @GetMapping(path = "/draft")
+    public String showDrafts(Model model) {
+        model.addAttribute("course", courseService.getAll());
+        return "courses/myCourseDrafts";
+    }
+
     @PostMapping
     public String create(String name) {
         User currentUser = userService.findCurrentUser();
         Course course = courseService.createCourse(name, currentUser);
-        return "redirect:/courses/" + course.getId();
+        return "redirect:/courses/" + course.getId() + "/draft";
     }
-
-
-
-
-
-
 }

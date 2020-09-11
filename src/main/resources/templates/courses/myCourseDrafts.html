@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <div class="my-4">
+        <div th:replace="layout/menu :: menu"></div>
+
+        <h1>Kurs</h1>
+    </div>
+
+    <ul class="list-unstyled">
+        <li th:each="course : ${course}">
+            <a th:href="${'/courses/' + course.id + '/draft'}" th:text="${course.name}" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}"></a>
+        </li>
+    </ul>
+
+    <form th:action="${'/courses/'}" sec:authorize="hasRole('LECTURER')" method="post" class="form-inline">
+        <input name="name" type="text" placeholder="Name" class="form-control mr-2">
+        <button type="submit" class="btn btn-primary">Anlegen</button>
+    </form>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
+</div>
+</body>
+</html>

@@ -31,9 +31,8 @@ public class CourseEntry {
     private String courseDescription;
 
     @ManyToOne
+    @Setter
     private User lecturer;
-
-    // TODO Status
 
     // Todo muss größer als 0 sein
     private Integer maxParticipants;

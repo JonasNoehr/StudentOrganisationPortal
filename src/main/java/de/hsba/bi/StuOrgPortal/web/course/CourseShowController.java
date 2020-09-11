@@ -55,11 +55,17 @@ public class CourseShowController {
         return "courses/show";
     }
 
+    @GetMapping(path = "/draft")
+    public String showDraft(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("course", courseService.getCourse(id));
+        return "courses/showDraft";
+    }
+
     @PostMapping
     public String addEntry(@PathVariable("id") Long id, CourseEntry entry) {
         Course course = courseService.getCourse(id);
         courseService.addCourseEntry(course, entry);
-        return "redirect:/courses/" + id;
+        return "redirect:/courses/" + id + "/draft";
     }
 
     @PostMapping(path = "/delete")

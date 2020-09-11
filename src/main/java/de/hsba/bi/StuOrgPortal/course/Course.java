@@ -14,6 +14,10 @@ import java.util.List;
 @Entity
 public class Course {
 
+    public static String DRAFT_STATUS = "Entwurf";
+    public static String OPEN_STATUS = "Offen";
+    public static String POSTED_STATUS = "Freigegeben";
+
     @Getter
     @Id
     @GeneratedValue
@@ -27,6 +31,11 @@ public class Course {
     @ManyToOne(optional = false)
     @Getter
     private User owner;
+
+    // TODO Status
+    @Setter
+    @Getter
+    private String status;
 
     @OneToMany(mappedBy = "course", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CourseEntry> entries;
@@ -45,4 +54,13 @@ public class Course {
     public boolean isOwnedByCurrentUser() {
         return this.owner != null && this.owner.getName().equals(User.getCurrentUsername());
     }
+
+    public boolean isStatusDraft() {
+        return this.status != null && getStatus().equals(DRAFT_STATUS);
+    }
+
+    public boolean isStatusPosted() {
+        return this.status != null && getStatus().equals(POSTED_STATUS);
+    }
+
 }

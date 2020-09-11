@@ -12,15 +12,10 @@
     </div>
 
     <ul class="list-unstyled">
-        <li th:each="course : ${course}">
+        <li th:each="course : ${course}" th:if="${course.statusPosted}">
             <a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a>
         </li>
     </ul>
-
-    <form th:action="${'/courses/'}" sec:authorize="hasRole('LECTURER')" method="post" class="form-inline">
-        <input name="name" type="text" placeholder="Name" class="form-control mr-2">
-        <button type="submit" class="btn btn-primary">Anlegen</button>
-    </form>
 </div>
 </body>
 </html>
