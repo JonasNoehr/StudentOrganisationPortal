@@ -15,7 +15,8 @@ import java.util.List;
 public class Course {
 
     public static String DRAFT_STATUS = "Entwurf";
-    public static String OPEN_STATUS = "Offen";
+    public static String STARTED_STATUS = "Läuft";
+    public static String ENDED_STATUS = "Beendet";
     public static String POSTED_STATUS = "Freigegeben";
 
     @Getter

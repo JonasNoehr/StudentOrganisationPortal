@@ -39,6 +39,9 @@
         <input name="roomNumber" type="text" placeholder="Raum Nummer" class="form-control mr-2">
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
+    <form th:action="${'/courses/' + course.id + '/post'}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Freigeben</button>
+    </form>
     <hr />
     <p class="small">
         <a href="/courses/">Index</a>
