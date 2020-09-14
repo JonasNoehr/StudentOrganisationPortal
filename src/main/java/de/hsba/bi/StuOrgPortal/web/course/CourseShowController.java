@@ -36,13 +36,6 @@ public class CourseShowController {
          */
         return course;
     }
-    /*
-    @ModelAttribute("users")
-    public List<User> getUsers() {
-        return userService.findStudents();
-    }
-
-     */
 
     @ExceptionHandler(NotFoundException.class)
     public String notFound() {

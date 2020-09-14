@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <table th:if="${course != null}" class="table">
+        <div class="my-4">
+            <div th:replace="layout/menu :: menu"></div>
+            <h1 th:text="${'Kurs ' + course.courseName}"></h1>
+        </div>
+        <tr>
+            <th>Teilnehmer</th>
+        </tr>
+        <tr th:each="entry : ${course}">
+            <td th:text="${course.participantNames}"></td>
+        </tr>
+    </table>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
+</div>
+</body>
+</html>

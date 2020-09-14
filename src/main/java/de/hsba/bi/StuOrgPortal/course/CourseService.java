@@ -21,6 +21,7 @@ import javax.transaction.Transactional;
 public class CourseService {
 
     private final CourseRepository repository;
+    private final CourseEntryRepository entryRepository;
     private final UserService userService;
 
     @EventListener(ApplicationStartedEvent.class)
@@ -59,6 +60,11 @@ public class CourseService {
         repository.save(course);
     }
 
+    public void addParticipant(CourseEntry entry, User user) {
+        entry.getParticipants().add(user);
+        entryRepository.save(entry);
+    }
+
     public void postCourseEntry(Course course) {
         course.setStatus(Course.POSTED_STATUS);
         repository.save(course);
@@ -67,4 +73,8 @@ public class CourseService {
     public Collection<Course> getAll() {return repository.findAll();}
 
     public void delete(Long id) { repository.deleteById(id);}
+
+    public CourseEntry findEntry(Long id) {
+        return entryRepository.findById(id).orElse(null);
+    }
 }

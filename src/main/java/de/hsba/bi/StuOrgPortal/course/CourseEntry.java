@@ -6,11 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -34,6 +34,9 @@ public class CourseEntry {
     @Setter
     private User lecturer;
 
+    @ManyToMany
+    private Set<User> participants;
+
     // Todo muss größer als 0 sein
     private Integer maxParticipants;
 
@@ -47,5 +50,16 @@ public class CourseEntry {
         this.lecturer = lecturer;
         this.maxParticipants = maxParticipants;
         this.roomNumber = roomNumber;
+    }
+
+    public Set<User> getParticipants() {
+        if (participants == null) {
+            participants = new HashSet<>();
+        }
+        return participants;
+    }
+
+    public String getParticipantNames() {
+        return getParticipants().stream().sorted().map(User::getName).collect(Collectors.joining(", "));
     }
 }

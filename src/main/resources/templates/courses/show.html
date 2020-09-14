@@ -14,6 +14,7 @@
             <th>Kursname</th>
             <th>Beschreibung</th>
             <th>Dozent</th>
+            <th>Teilnehmerzahl</th>
             <th>Max. Teilnehmerzahl</th>
             <th>Raum Nummer</th>
             <th>Status</th>
@@ -22,11 +23,18 @@
             <td th:text="${entry.courseName}"></td>
             <td th:text="${entry.courseDescription}"></td>
             <td th:text="${entry.lecturer}"></td>
+            <td th:text="${entry.participants.size()}"></td>
             <td th:text="${entry.maxParticipants}"></td>
             <td th:text="${entry.roomNumber}"></td>
             <td th:text="${course.status}"></td>
         </tr>
     </table>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participate(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${course.statusPosted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Teilnehmen</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participants(id=${entry.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.statusPosted}" method="get" class="form-inline">
+        <button type="submit" class="btn btn-primary">Teilnehmerliste</button>
+    </form>
     <hr />
     <p class="small">
         <a href="/courses/">Index</a>
