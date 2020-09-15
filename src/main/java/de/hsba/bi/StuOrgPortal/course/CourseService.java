@@ -65,6 +65,11 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
+    public void removeParticipant(CourseEntry entry, User user) {
+        entry.getParticipants().remove(user);
+        entryRepository.save(entry);
+    }
+
     public void postCourseEntry(Course course) {
         course.setStatus(Course.POSTED_STATUS);
         repository.save(course);

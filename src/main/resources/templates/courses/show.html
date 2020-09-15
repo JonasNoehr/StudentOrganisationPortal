@@ -32,6 +32,9 @@
     <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participate(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${course.statusPosted}" method="post" class="form-inline">
         <button type="submit" class="btn btn-primary">Teilnehmen</button>
     </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/unsubscribe(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${course.statusPosted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Vom Kurs abmelden</button>
+    </form>
     <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participants(id=${entry.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.statusPosted}" method="get" class="form-inline">
         <button type="submit" class="btn btn-primary">Teilnehmerliste</button>
     </form>

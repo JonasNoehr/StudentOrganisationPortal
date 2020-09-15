@@ -36,10 +36,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<User> findStudents() {
-        return userRepository.findByRole(User.STUDENT_ROLE);
-    }
-
     public User findCurrentUser() {
         return userRepository.findByName(User.getCurrentUsername());
     }
