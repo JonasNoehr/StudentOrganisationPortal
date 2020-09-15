@@ -1,26 +1,23 @@
 package de.hsba.bi.StuOrgPortal.course;
 
 import de.hsba.bi.StuOrgPortal.user.User;
-import de.hsba.bi.StuOrgPortal.user.UserService;
-import de.hsba.bi.StuOrgPortal.web.course.CourseEntryController;
-import de.hsba.bi.StuOrgPortal.web.course.CourseShowController;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.swing.plaf.ComponentUI;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 public class CourseEntry {
+
+    public Integer next;
 
     @Id
     @GeneratedValue
@@ -64,7 +61,14 @@ public class CourseEntry {
     }
 
     public String getParticipantNames() {
-        return getParticipants().stream().sorted().map(User::getName).collect(Collectors.joining(", "));
+        String participantName = new String();
+        User[] participantNames = participants.stream().sorted().toArray(User[]::new);
+        for (int i = next; i<participantNames.length;) {
+            participantName = participantNames[i].toString();
+            next = next +1;
+            return participantName;
+        }
+        return participantName;
     }
 
     public boolean isParticipant(User user) {

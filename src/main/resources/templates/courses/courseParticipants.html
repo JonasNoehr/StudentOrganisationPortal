@@ -13,8 +13,8 @@
         <tr>
             <th>Teilnehmer</th>
         </tr>
-        <tr th:each="entry : ${course}">
-            <td th:text="${course.participantNames}"></td>
+        <tr th:each="entry : ${course.participants}">
+            <td th:text="${course.getParticipantNames()}"></td>
         </tr>
     </table>
     <hr />

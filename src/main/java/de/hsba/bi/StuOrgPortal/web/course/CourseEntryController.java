@@ -54,6 +54,8 @@ public class CourseEntryController {
     @GetMapping(path = "/participants")
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.findEntry(id));
+        CourseEntry entry = courseService.findEntry(id);
+        entry.next = 0;
         return "courses/courseParticipants";
     }
 }
