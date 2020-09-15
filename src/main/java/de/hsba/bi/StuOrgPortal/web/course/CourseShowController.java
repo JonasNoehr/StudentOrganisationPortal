@@ -68,6 +68,13 @@ public class CourseShowController {
         return "redirect:/courses/draft";
     }
 
+    @PostMapping(path = "/start")
+    public String start(@PathVariable("id") Long id) {
+        Course course = courseService.getCourse(id);
+        courseService.startCourseEntry(course);
+        return "redirect:/courses/myCourses";
+    }
+
     @PostMapping(path = "/delete")
     public String delete(@PathVariable("id") Long id) {
         getCourse(id);

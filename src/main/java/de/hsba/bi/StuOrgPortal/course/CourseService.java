@@ -75,6 +75,11 @@ public class CourseService {
         repository.save(course);
     }
 
+    public void startCourseEntry(Course course) {
+        course.setStatus(Course.STARTED_STATUS);
+        repository.save(course);
+    }
+
     public Collection<Course> getAll() {return repository.findAll();}
 
     public void delete(Long id) { repository.deleteById(id);}

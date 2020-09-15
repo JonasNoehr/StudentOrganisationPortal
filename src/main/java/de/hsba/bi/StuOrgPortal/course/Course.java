@@ -64,4 +64,8 @@ public class Course {
         return this.status != null && getStatus().equals(POSTED_STATUS);
     }
 
+    public boolean isStatusStarted() {
+        return this.status != null && getStatus().equals(STARTED_STATUS);
+    }
+
 }

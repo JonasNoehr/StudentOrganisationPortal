@@ -12,10 +12,14 @@
     </div>
 
     <ul class="list-unstyled">
-        <li th:each="course : ${course}" th:if="${course.statusPosted} OR ${course.statusStarted}">
-            <a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a>
+        <li th:each="course : ${course}">
+            <a th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${course.ownedByCurrentUser} and ${!course.statusDraft}"></a>
         </li>
     </ul>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
 </div>
 </body>
 </html>
