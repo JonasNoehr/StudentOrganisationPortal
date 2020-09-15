@@ -39,6 +39,12 @@ public class CourseController {
         return "courses/myCourses";
     }
 
+    @GetMapping(path = "/myEndedCourses")
+    public String showEndedCourses(Model model) {
+        model.addAttribute("course", courseService.getAll());
+        return "courses/myEndedCourses";
+    }
+
     @PostMapping
     public String create(String name) {
         User currentUser = userService.findCurrentUser();

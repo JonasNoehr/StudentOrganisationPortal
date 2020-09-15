@@ -14,6 +14,7 @@
   <a class="btn btn-sm btn-link float-right" sec:authorize="hasRole('ADMIN')" th:href="@{/users/}">Nutzerverwaltung</a>
   <a class="btn btn-sm btn-link float-right" href="/courses/draft" sec:authorize="hasRole('LECTURER')">Meine Entwürfe</a>
   <a class="btn btn-sm btn-link float-right" href="/courses/myCourses" sec:authorize="hasRole('LECTURER')">Meine Kurse</a>
+  <a class="btn btn-sm btn-link float-right" href="/courses/myEndedCourses" sec:authorize="hasRole('LECTURER')">Meine beendeten Kurse</a>
 </th:block>
 </body>
 </html>

@@ -80,6 +80,11 @@ public class CourseService {
         repository.save(course);
     }
 
+    public void endCourseEntry(Course course) {
+        course.setStatus(Course.ENDED_STATUS);
+        repository.save(course);
+    }
+
     public Collection<Course> getAll() {return repository.findAll();}
 
     public void delete(Long id) { repository.deleteById(id);}
