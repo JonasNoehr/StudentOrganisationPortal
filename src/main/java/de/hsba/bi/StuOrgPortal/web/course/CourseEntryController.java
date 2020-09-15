@@ -30,6 +30,9 @@ public class CourseEntryController {
     public String participate(@PathVariable("id") Long id) {
         CourseEntry entry = courseService.findEntry(id);
         User user = userService.findCurrentUser();
+        if (entry.isGreaterMaxParticipants()) {
+            return "/courses/reachedMaxParticipants";
+        }
         if (entry.isParticipant(user)) {
             return "/courses/alreadySubscribed";
         }

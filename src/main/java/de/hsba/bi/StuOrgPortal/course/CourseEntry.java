@@ -70,4 +70,11 @@ public class CourseEntry {
     public boolean isParticipant(User user) {
         return this.participants != null && this.getParticipants().contains(user);
     }
+
+    public boolean isGreaterMaxParticipants() {
+        if (this.getParticipants().size()+1 > this.maxParticipants) {
+            return true;
+        }
+        return false;
+    }
 }
