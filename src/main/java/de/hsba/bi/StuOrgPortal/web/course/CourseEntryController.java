@@ -51,6 +51,24 @@ public class CourseEntryController {
         return "/courses/noSubscription";
     }
 
+    @PostMapping(path = "/setGrades")
+    public String setGrades(@PathVariable("id") Long id) {
+        CourseEntry entry = courseService.findEntry(id);
+        if (entry.isCourseGradesSet()) {
+            return "redirect:/entries/" + id +"/setUserGrades";
+        }
+        courseService.setCourseGrades(entry);
+        return "redirect:/entries/" + id +"/setUserGrades";
+    }
+
+    @GetMapping(path = "/setUserGrades")
+    public String setUserGRades(@PathVariable("id") Long id, Model model) {
+        CourseEntry entry = courseService.findEntry(id);
+        model.addAttribute("entry", entry);
+        model.addAttribute("grade", courseService.findByEntryId(entry));
+        return "/courses/participantGrades";
+    }
+
     @GetMapping(path = "/participants")
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.findEntry(id));

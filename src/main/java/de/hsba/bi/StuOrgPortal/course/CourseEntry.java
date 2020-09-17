@@ -18,6 +18,7 @@ import java.util.Set;
 public class CourseEntry {
 
     public Integer next;
+    public Integer nextUser;
 
     @Id
     @GeneratedValue
@@ -36,6 +37,7 @@ public class CourseEntry {
     private User lecturer;
 
     @ManyToMany
+    @OrderBy
     private Set<User> participants;
 
     // Todo muss größer als 0 sein
@@ -44,6 +46,9 @@ public class CourseEntry {
     private String roomNumber;
 
     private BigDecimal courseAverage;
+
+    @Setter
+    private boolean courseGradesSet;
 
     public CourseEntry(String courseName, String courseDescription, User lecturer, Integer maxParticipants, String roomNumber) {
         this.courseName = courseName;
@@ -71,6 +76,18 @@ public class CourseEntry {
         return participantName;
     }
 
+    public User getUserParticipant() {
+        User userParticipant;
+        User[] userParticipants = participants.stream().sorted().toArray(User[]::new);
+        for (int i = nextUser; i < userParticipants.length; ) {
+            userParticipant = userParticipants[i];
+            nextUser = nextUser + 1;
+            return userParticipant;
+        }
+        return null;
+    }
+
+
     public boolean isParticipant(User user) {
         return this.participants != null && this.getParticipants().contains(user);
     }
@@ -80,5 +97,9 @@ public class CourseEntry {
             return true;
         }
         return false;
+    }
+
+    public  boolean isCourseGradesSet() {
+        return this.courseGradesSet;
     }
 }

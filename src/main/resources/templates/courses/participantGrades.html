@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <div class="my-4">
+        <div th:replace="layout/menu :: menu"></div>
+        <h1 th:text="${'Kurs ' + entry.courseName}"></h1>
+    </div>
+
+    <table th:if="${grade != null}" class="table">
+        <tr>
+            <th>Name</th>
+            <th>Note</th>
+        </tr>
+        <tr th:each="entryGrade : ${grade}">
+            <td th:text="${entryGrade.user.name}"></td>
+            <td th:text="${entryGrade.grade}"></td>
+            <form method="post" class="form-inline" th:action="${'/courseGrades/' + entryGrade.courseEntry.id + '/' + entryGrade.user.id}">
+                <td><input name="grade" type="text" placeholder="Note" class="form-control mr-2"></td>
+                <td><button type="submit" class="btn btn-primary">Eintragen</button></td>
+            </form>
+        </tr>
+    </table>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
+</div>
+</body>
+</html>

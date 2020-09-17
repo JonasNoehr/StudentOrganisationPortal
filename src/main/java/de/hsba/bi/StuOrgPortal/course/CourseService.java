@@ -22,6 +22,7 @@ public class CourseService {
 
     private final CourseRepository repository;
     private final CourseEntryRepository entryRepository;
+    private final CourseGradeRepository gradeRepository;
     private final UserService userService;
 
     @EventListener(ApplicationStartedEvent.class)
@@ -85,11 +86,37 @@ public class CourseService {
         repository.save(course);
     }
 
+    public void setCourseGrades(CourseEntry entry) {
+        entry.nextUser = 0;
+        for (int i = 0; i<entry.getParticipants().size();i++) {
+            CourseGrade grade = new CourseGrade();
+            grade.setCourseEntry(entry);
+            grade.setUser(entry.getUserParticipant());
+            grade.setCourseName(entry.toString());
+            gradeRepository.save(grade);
+        }
+        entry.setCourseGradesSet(true);
+        entryRepository.save(entry);
+    }
+
+    public void setUserGrade(CourseGrade courseGrade, Double grade) {
+        courseGrade.setGrade(grade);
+        gradeRepository.save(courseGrade);
+    }
+
     public Collection<Course> getAll() {return repository.findAll();}
 
     public void delete(Long id) { repository.deleteById(id);}
 
     public CourseEntry findEntry(Long id) {
         return entryRepository.findById(id).orElse(null);
+    }
+
+    public List<CourseGrade> findByEntryId(CourseEntry entry) {
+        return gradeRepository.findByCourseEntry(entry);
+    }
+
+    public CourseGrade findByEntryAndUser(CourseEntry entry, User user) {
+        return gradeRepository.findByCourseEntryAndAndUser(entry, user);
     }
 }
