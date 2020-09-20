@@ -1,29 +1,70 @@
 package de.hsba.bi.StuOrgPortal.user;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import de.hsba.bi.StuOrgPortal.Validation.PasswordMatches;
+import de.hsba.bi.StuOrgPortal.Validation.ValidPassword;
+import lombok.*;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.List;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
+@Data
+@Builder
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-public class User implements Comparable<User> {
+@PasswordMatches
+
+public class User {
 
     public static String STUDENT_ROLE = "STUDENT";
     public static String LECTURER_ROLE = "LECTURER";
     public static String ADMIN_ROLE = "ADMIN";
 
-    public static String getCurrentUsername() {
+    @Id
+    @Getter
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+    @Getter
+    @Setter
+    @NonNull
+    @Size(min = 1, message = "{Size.user.firstName}")
+    private String firstName;
+
+    @Getter
+    @Setter
+    @NonNull
+    @Size(min = 1, message = "{Size.user.lastName}")
+    private String lastName;
+
+    @Getter
+    @Setter
+    @ValidPassword
+    private String password;
+
+    @Getter
+    @Setter
+    @NonNull
+    @Size(min = 1)
+    private String matchingPassword;
+
+    @Getter
+    @Setter
+    @Email
+    @NonNull
+    private String email;
+
+    @Getter
+    @Setter
+    private String role;
+
+
+
+    public static String getCurrentEmail() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();
@@ -31,28 +72,15 @@ public class User implements Comparable<User> {
         return null;
     }
 
-    @Id
-    @GeneratedValue
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Basic(optional = false)
-    private String name;
-
-    @Basic(optional = false)
-    private String password;
-
-    @Setter
-    private String role;
-
-
-    public User(String name, String password, String role) {
-        this.name = name;
-        this.password = password;
-        this.role = role;
+    public User(int id, String firstName, String lastName, String encode, String encode1, String email, String role) {
     }
 
-    @Override
+    public User() {
+
+    }
+
+
+    /* @Override
     public int compareTo(User other) {
         return this.name.compareTo(other.name);
     }
@@ -60,5 +88,5 @@ public class User implements Comparable<User> {
     @Override
     public String toString() {
         return name;
-    }
+    } */
 }

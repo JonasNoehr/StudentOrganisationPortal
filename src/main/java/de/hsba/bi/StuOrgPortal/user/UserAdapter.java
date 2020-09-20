@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Set;
 
 @RequiredArgsConstructor
-class UserAdapter implements UserDetails {
+abstract class UserAdapter implements UserDetails {
 
     private final User user;
 
@@ -23,9 +23,8 @@ class UserAdapter implements UserDetails {
         return user.getPassword();
     }
 
-    @Override
-    public String getUsername() {
-        return user.getName();
+    public String getEmail() {
+        return user.getCurrentEmail();
     }
 
     @Override

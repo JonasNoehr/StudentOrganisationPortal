@@ -31,7 +31,7 @@ public class CourseEntry {
 
     // TODO Status
 
-    // Todo muss größer als 0 sein
+    // TODO muss größer als 0 sein
     private Integer maxParticipants;
 
     private String roomNumber;
