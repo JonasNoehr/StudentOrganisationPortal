@@ -34,11 +34,16 @@ public class CourseService {
         userService.init();
         List<User> users = userService.findAll();
         User zoe = users.get(5);
+        User anne = users.get(0);
+        User benedikt = users.get(1);
 
         Course course = new Course(zoe);
         course.setName("Mathe");
         course.setStatus(Course.POSTED_STATUS);
-        addCourseEntry(course, new CourseEntry("Mathematik", "Mathe für WI", zoe, 20, "R201"));
+        CourseEntry entry = new CourseEntry("Mathematik", "Mathe für WI", zoe, 20, "R201");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
 
         repository.save(course);
     }
