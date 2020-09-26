@@ -16,6 +16,11 @@
             <a th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${course.ownedByCurrentUser} and ${!course.statusDraft}"></a>
         </li>
     </ul>
+    <ul class="list-unstyled">
+        <li th:each="course : ${course}">
+            <a th:each="entry : ${entry}" th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${entry.isParticipant(user)} and ${!course.statusDraft}"></a>
+        </li>
+    </ul>
     <hr />
     <p class="small">
         <a href="/courses/">Index</a>

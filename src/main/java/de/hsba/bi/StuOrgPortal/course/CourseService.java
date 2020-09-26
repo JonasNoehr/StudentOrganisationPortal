@@ -111,6 +111,8 @@ public class CourseService {
 
     public Collection<Course> getAll() {return repository.findAll();}
 
+    public Collection<CourseEntry> getAllEntries() {return entryRepository.findAll();}
+
     public void delete(Long id) { repository.deleteById(id);}
 
     public CourseEntry findEntry(Long id) {

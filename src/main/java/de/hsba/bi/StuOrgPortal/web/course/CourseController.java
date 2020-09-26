@@ -35,7 +35,10 @@ public class CourseController {
 
     @GetMapping(path = "/myCourses")
     public String showCourses(Model model) {
+        User currentUser = userService.findCurrentUser();
         model.addAttribute("course", courseService.getAll());
+        model.addAttribute("entry", courseService.getAllEntries());
+        model.addAttribute("user", currentUser);
         return "courses/myCourses";
     }
 
