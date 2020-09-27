@@ -18,16 +18,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.GET, "/courses/**").permitAll()
-                .antMatchers("/users/index").hasRole(User.ADMIN_ROLE)
-                .antMatchers("/users/register").permitAll()
+                .antMatchers("/user/index").hasRole(User.ADMIN_ROLE)
+                .antMatchers("/user/UserRegistration").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
                 .loginPage("/login")
                 .permitAll()
-                .and()
-            .logout()
-                .logoutSuccessUrl("/courses/")
+            .and()
+                .logout()
+                .logoutSuccessUrl("/courses/showd")
                 .permitAll();
     }
 

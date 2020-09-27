@@ -1,4 +1,4 @@
-package de.hsba.bi.StuOrgPortal.web.user;
+package de.hsba.bi.StuOrgPortal.web.user.controller;
 
 import de.hsba.bi.StuOrgPortal.user.UserService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package de.hsba.bi.StuOrgPortal.Validation;
 
-import de.hsba.bi.StuOrgPortal.user.User;
+import de.hsba.bi.StuOrgPortal.web.user.dto.UserDto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,8 +14,8 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
 
     @Override
     public boolean isValid(final Object obj, final ConstraintValidatorContext context) {
-        final User user = (User) obj;
-        return user.getPassword().equals(user.getMatchingPassword());
+        final UserDto userDto = (UserDto) obj;
+        return userDto.getPassword().equals(userDto.getMatchingPassword());
     }
 
 }

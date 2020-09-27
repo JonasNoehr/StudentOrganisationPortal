@@ -1,4 +1,4 @@
-package de.hsba.bi.StuOrgPortal.web;
+package de.hsba.bi.StuOrgPortal.web.user.controller;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

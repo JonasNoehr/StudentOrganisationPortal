@@ -48,12 +48,6 @@ public class User {
 
     @Getter
     @Setter
-    @NonNull
-    @Size(min = 1)
-    private String matchingPassword;
-
-    @Getter
-    @Setter
     @Email
     @NonNull
     private String email;
@@ -72,7 +66,7 @@ public class User {
         return null;
     }
 
-    public User(int id, String firstName, String lastName, String encode, String encode1, String email, String role) {
+    public User(int id, String firstName, String lastName, String encode, String email, String role) {
     }
 
     public User() {
@@ -80,13 +74,16 @@ public class User {
     }
 
 
-    /* @Override
-    public int compareTo(User other) {
-        return this.name.compareTo(other.name);
-    }
-
     @Override
     public String toString() {
-        return name;
-    } */
+        final StringBuilder builder = new StringBuilder();
+        builder.append("User [id=")
+                .append(id)
+                .append(", firstName=").append(firstName)
+                .append(", lastName=").append(lastName)
+                .append(", email=").append(email)
+                .append(", role=").append(role)
+                .append("]");
+        return builder.toString();
+    }
 }

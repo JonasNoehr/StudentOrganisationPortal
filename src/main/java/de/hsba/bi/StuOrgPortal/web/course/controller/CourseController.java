@@ -1,4 +1,4 @@
-package de.hsba.bi.StuOrgPortal.web.course;
+/*package de.hsba.bi.StuOrgPortal.web.course.controller;
 
 import de.hsba.bi.StuOrgPortal.course.Course;
 import de.hsba.bi.StuOrgPortal.course.CourseEntry;
@@ -48,4 +48,4 @@ public class CourseController {
         courseService.delete(id);
         return "redirect:/courses/";
     }
-}
+} */
