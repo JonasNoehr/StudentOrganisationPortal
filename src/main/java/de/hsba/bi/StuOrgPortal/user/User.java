@@ -3,8 +3,6 @@ package de.hsba.bi.StuOrgPortal.user;
 import de.hsba.bi.StuOrgPortal.Validation.PasswordMatches;
 import de.hsba.bi.StuOrgPortal.Validation.ValidPassword;
 import lombok.*;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,19 +56,8 @@ public class User {
 
 
 
-    public static String getCurrentEmail() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        }
-        return null;
-    }
 
     public User(int id, String firstName, String lastName, String encode, String email, String role) {
-    }
-
-    public User() {
-
     }
 
 
