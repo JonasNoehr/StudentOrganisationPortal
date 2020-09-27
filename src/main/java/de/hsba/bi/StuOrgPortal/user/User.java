@@ -1,21 +1,15 @@
 package de.hsba.bi.StuOrgPortal.user;
 
-import de.hsba.bi.StuOrgPortal.Validation.PasswordMatches;
 import de.hsba.bi.StuOrgPortal.Validation.ValidPassword;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
-@Data
-@Builder
 @Entity
-@PasswordMatches
-
 public class User {
 
     public static String STUDENT_ROLE = "STUDENT";
@@ -57,9 +51,9 @@ public class User {
 
 
 
-    public User(int id, String firstName, String lastName, String encode, String email, String role) {
-    }
+    public User() {
 
+    }
 
     @Override
     public String toString() {

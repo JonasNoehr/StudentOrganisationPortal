@@ -21,11 +21,11 @@ public class UserService implements UserServiceII{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    private UserAdapter userAdapter;
 
     public User adminOnAppStart() {
 
-        User user = new User();
+        final User user = new User();
 
         user.setFirstName("admin");
         user.setLastName("admin");
@@ -40,7 +40,7 @@ public class UserService implements UserServiceII{
         if (emailExists(accountDto.getEmail())) {
             throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + accountDto.getEmail());
         }
-        User user = new User();
+        final User user = new User();
 
         user.setFirstName(accountDto.getFirstName());
         user.setLastName(accountDto.getLastName());
@@ -55,7 +55,7 @@ public class UserService implements UserServiceII{
         if (emailExists(accountDto.getEmail())) {
             throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + accountDto.getEmail());
         }
-        User user = new User();
+        final User user = new User();
 
         user.setFirstName(accountDto.getFirstName());
         user.setLastName(accountDto.getLastName());
@@ -79,11 +79,11 @@ public class UserService implements UserServiceII{
     }
 
     public User findCurrentUser() {
-        return userRepository.findByEmail(User.getCurrentEmail());
+
+        return userRepository.findByEmail(userAdapter.getUsername());
     }
 
-    public User findUserByEmail(final String email)
-    {
+    public User findUserByEmail(final String email)    {
         return userRepository.findByEmail(email);
     }
 

@@ -41,6 +41,4 @@ public class UserDto<setRole> {
     @NonNull
     private String email;
 
-
-
 }

@@ -8,8 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Set;
 
+
 @RequiredArgsConstructor
-abstract class UserAdapter implements UserDetails {
+public class UserAdapter implements UserDetails {
 
     private final User user;
 
@@ -23,8 +24,9 @@ abstract class UserAdapter implements UserDetails {
         return user.getPassword();
     }
 
-    public String getEmail() {
-        return user.getCurrentEmail();
+    @Override
+    public String getUsername() {
+        return user.getEmail();
     }
 
     @Override
