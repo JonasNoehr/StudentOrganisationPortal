@@ -45,6 +45,7 @@ public class CourseShowController {
     @GetMapping
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.getCourse(id));
+        model.addAttribute("user", userService.findCurrentUser());
         return "courses/show";
     }
 

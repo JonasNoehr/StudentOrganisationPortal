@@ -38,6 +38,9 @@
     <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/setGrades(id=${entry.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.StatusEnded}" method="post" class="form-inline">
         <button type="submit" class="btn btn-primary">Noten eintragen</button>
     </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/setAssessment(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${entry.isParticipant(user)} and ${course.StatusEnded}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Kurs bewerten</button>
+    </form>
     <form th:each="entry : ${course.entries}" th:action="@{/courses/{id}/start(id=${course.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusPosted}" method="post" class="form-inline">
         <button type="submit" class="btn btn-primary">Kurs starten</button>
     </form>

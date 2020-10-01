@@ -50,6 +50,9 @@ public class CourseEntry {
     @Setter
     private boolean courseGradesSet;
 
+    @Setter
+    private boolean courseAssessmentsSet;
+
     public CourseEntry(String courseName, String courseDescription, User lecturer, Integer maxParticipants, String roomNumber) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;
@@ -99,7 +102,11 @@ public class CourseEntry {
         return false;
     }
 
-    public  boolean isCourseGradesSet() {
+    public boolean isCourseGradesSet() {
         return this.courseGradesSet;
+    }
+
+    public boolean isCourseAssessmentsSet() {
+        return this.courseAssessmentsSet;
     }
 }

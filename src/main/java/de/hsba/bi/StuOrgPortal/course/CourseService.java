@@ -24,6 +24,7 @@ public class CourseService {
     private final CourseEntryRepository entryRepository;
     private final CourseGradeRepository gradeRepository;
     private final UserService userService;
+    private final CourseAssessmentRepository assessmentRepository;
 
     @EventListener(ApplicationStartedEvent.class)
     public void init() {
@@ -109,6 +110,24 @@ public class CourseService {
         gradeRepository.save(courseGrade);
     }
 
+    public void setCourseAssessments(CourseEntry entry) {
+        entry.nextUser = 0;
+        for (int i = 0; i<entry.getParticipants().size();i++) {
+            CourseAssessment assessment = new CourseAssessment();
+            assessment.setCourseEntry(entry);
+            assessment.setUser(entry.getUserParticipant());
+            assessment.setCourseName(entry.toString());
+            assessmentRepository.save(assessment);
+        }
+        entry.setCourseAssessmentsSet(true);
+        entryRepository.save(entry);
+    }
+
+    public void setCourseAssessment(CourseAssessment courseAssessment, Integer assessment) {
+        courseAssessment.setAssessment(assessment);
+        assessmentRepository.save(courseAssessment);
+    }
+
     public Collection<Course> getAll() {return repository.findAll();}
 
     public Collection<CourseEntry> getAllEntries() {return entryRepository.findAll();}
@@ -123,7 +142,15 @@ public class CourseService {
         return gradeRepository.findByCourseEntry(entry);
     }
 
+    public List<CourseAssessment> findAssessmentByEntryId(CourseEntry entry) {
+        return assessmentRepository.findByCourseEntry(entry);
+    }
+
     public CourseGrade findByEntryAndUser(CourseEntry entry, User user) {
         return gradeRepository.findByCourseEntryAndAndUser(entry, user);
+    }
+
+    public CourseAssessment findAssessmentByEntryAndUser(CourseEntry entry, User user) {
+        return assessmentRepository.findByCourseEntryAndAndUser(entry, user);
     }
 }
