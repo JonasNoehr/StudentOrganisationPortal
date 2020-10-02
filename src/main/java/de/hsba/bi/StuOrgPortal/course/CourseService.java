@@ -187,6 +187,10 @@ public class CourseService {
         return gradeRepository.findByCourseEntryAndAndUser(entry, user);
     }
 
+    public List<Course> findCourses(String filter) {
+        return filter.isBlank() ? repository.findAll() : repository.findByStatus(filter);
+    }
+
     public CourseAssessment findAssessmentByEntryAndUser(CourseEntry entry, User user) {
         return assessmentRepository.findByCourseEntryAndAndUser(entry, user);
     }

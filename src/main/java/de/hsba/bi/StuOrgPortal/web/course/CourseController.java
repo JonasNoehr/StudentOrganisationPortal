@@ -8,10 +8,12 @@ import de.hsba.bi.StuOrgPortal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/courses")
@@ -38,6 +40,24 @@ public class CourseController {
         User currentUser = userService.findCurrentUser();
         model.addAttribute("course", courseService.getAll());
         model.addAttribute("entry", courseService.getAllEntries());
+        model.addAttribute("user", currentUser);
+        return "courses/myCourses";
+    }
+
+    @GetMapping(path = "/filter")
+    public String showCoursesWithFilter(Model model, @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
+        User currentUser = userService.findCurrentUser();
+        String statusFilter = new String();
+        if (filter.equals("POSTED_STATUS")) {
+            statusFilter = Course.POSTED_STATUS;
+        } else if (filter.equals("ENDED_STATUS")) {
+            statusFilter = Course.ENDED_STATUS;
+        } else if (filter.equals("STARTED_STATUS")) {
+            statusFilter = Course.STARTED_STATUS;
+        }
+        model.addAttribute("course", courseService.findCourses(statusFilter));
+        model.addAttribute("entry", courseService.getAllEntries());
+        model.addAttribute("filter", filter);
         model.addAttribute("user", currentUser);
         return "courses/myCourses";
     }

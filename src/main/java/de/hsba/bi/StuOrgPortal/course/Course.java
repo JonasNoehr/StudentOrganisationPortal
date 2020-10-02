@@ -15,7 +15,7 @@ import java.util.List;
 public class Course {
 
     public static String DRAFT_STATUS = "Entwurf";
-    public static String STARTED_STATUS = "Läuft";
+    public static String STARTED_STATUS = "Gestartet";
     public static String ENDED_STATUS = "Beendet";
     public static String POSTED_STATUS = "Freigegeben";
 
@@ -70,6 +70,10 @@ public class Course {
 
     public boolean isStatusEnded() {
         return this.status != null && getStatus().equals(ENDED_STATUS);
+    }
+
+    public String getStatus() {
+        return this.status;
     }
 
 }
