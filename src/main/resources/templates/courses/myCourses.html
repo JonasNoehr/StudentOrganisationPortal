@@ -10,16 +10,19 @@
 
         <h1>Meine Kurse</h1>
     </div>
-
     <ul class="list-unstyled">
-        <li th:each="course : ${course}">
-            <a th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${course.ownedByCurrentUser} and ${!course.statusDraft}"></a>
-        </li>
-    </ul>
-    <ul class="list-unstyled">
-        <li th:each="course : ${course}">
-            <a th:each="entry : ${entry}" th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${entry.isParticipant(user)} and ${!course.statusDraft}"></a>
-        </li>
+        <table>
+            <tr>
+                <th>Kursname</th>
+                <th>Status</th>
+            </tr>
+            <tr th:each="course : ${course}">
+                <td th:each="entry : ${course.entries}" th:if="${entry.isParticipant(user)} and ${!course.statusDraft}"><a th:text="${entry.courseName}" th:href="${'/courses/' + course.id}"></a></td>
+                <td th:each="entry : ${course.entries}" th:if="${course.ownedByCurrentUser} and ${!course.statusDraft}"><a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a></td>
+                <td th:each="entry : ${course.entries}" th:text="${course.status}" th:if="${entry.isParticipant(user)} and ${!course.statusDraft}"></td>
+                <td th:each="entry : ${course.entries}" th:text="${course.status}" th:if="${course.ownedByCurrentUser} and ${!course.statusDraft}"></td>
+            </tr>
+        </table>
     </ul>
     <hr />
     <p class="small">
