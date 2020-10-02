@@ -35,4 +35,8 @@ public class CourseGrade {
     @Setter
     private Double grade;
 
+    public Double getGrade() {
+        return this.grade;
+    }
+
 }

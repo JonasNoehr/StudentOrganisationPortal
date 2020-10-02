@@ -30,6 +30,7 @@ public class CourseGradeController {
         User user = userService.findById(userId);
         CourseGrade courseGrade = courseService.findByEntryAndUser(entry, user);
         courseService.setUserGrade(courseGrade, grade);
+        courseService.setGradeAverage(entry);
         return "redirect:/entries/" + entry.getId() + "/setUserGrades";
     }
 }

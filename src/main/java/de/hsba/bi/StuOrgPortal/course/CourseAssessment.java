@@ -46,9 +46,4 @@ public class CourseAssessment {
     public Double getAssessment() {
         return this.assessment;
     }
-
-    public void averageHandling(Integer qtyUser, Integer assessments) {
-
-    }
-
 }

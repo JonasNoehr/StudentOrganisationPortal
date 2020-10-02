@@ -135,7 +135,6 @@ public class CourseService {
 
     public void setAssessmentAverage(CourseEntry entry) {
         CourseAssessment[] assessmentArray = findAssessmentByEntryId(entry).toArray(CourseAssessment[]::new);
-        List<CourseAssessment> assessment = findAssessmentByEntryId(entry);
         CourseAssessment courseAssessment;
         Integer qtyUserWithAssessment = 0;
         Double userAssessments = 0.0;
@@ -147,6 +146,22 @@ public class CourseService {
             }
         }
         entry.setAssessmentAverage(userAssessments/qtyUserWithAssessment);
+        entryRepository.save(entry);
+    }
+
+    public void setGradeAverage(CourseEntry entry) {
+        CourseGrade[] gradeArray = findByEntryId(entry).toArray(CourseGrade[]::new);
+        CourseGrade courseGrade;
+        Integer qtyUserWithGrade = 0;
+        Double userGrades = 0.0;
+        for (int i = 0; i<gradeArray.length;i++) {
+            courseGrade = gradeArray[i];
+            if (courseGrade.getGrade() != null) {
+                qtyUserWithGrade++;
+                userGrades = userGrades + courseGrade.getGrade();
+            }
+        }
+        entry.setGradeAverage(userGrades/qtyUserWithGrade);
         entryRepository.save(entry);
     }
 
