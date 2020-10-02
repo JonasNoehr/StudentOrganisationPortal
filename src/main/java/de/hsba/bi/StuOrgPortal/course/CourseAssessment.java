@@ -35,4 +35,11 @@ public class CourseAssessment {
     @Setter
     private Integer assessment;
 
+    @Setter
+    private boolean assessmentSet;
+
+    public boolean isAssessmentSet() {
+        return this.assessmentSet;
+    }
+
 }

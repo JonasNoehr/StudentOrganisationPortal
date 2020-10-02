@@ -128,6 +128,11 @@ public class CourseService {
         assessmentRepository.save(courseAssessment);
     }
 
+    public void setCourseAssessmentsSet(CourseAssessment courseAssessment) {
+        courseAssessment.setAssessmentSet(true);
+        assessmentRepository.save(courseAssessment);
+    }
+
     public Collection<Course> getAll() {return repository.findAll();}
 
     public Collection<CourseEntry> getAllEntries() {return entryRepository.findAll();}

@@ -26,6 +26,6 @@ public class CourseAssessmentController {
         User user = userService.findById(userId);
         CourseAssessment courseAssessment = courseService.findAssessmentByEntryAndUser(entry, user);
         courseService.setCourseAssessment(courseAssessment, assessment);
-        return "redirect:/entries/" + entry.getId() + "/setCourseAssessment";
+        return "/courses/AssessmentSuccessful";
     }
 }

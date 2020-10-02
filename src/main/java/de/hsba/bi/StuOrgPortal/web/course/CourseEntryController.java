@@ -1,6 +1,7 @@
 package de.hsba.bi.StuOrgPortal.web.course;
 
 import de.hsba.bi.StuOrgPortal.course.Course;
+import de.hsba.bi.StuOrgPortal.course.CourseAssessment;
 import de.hsba.bi.StuOrgPortal.course.CourseEntry;
 import de.hsba.bi.StuOrgPortal.course.CourseService;
 import de.hsba.bi.StuOrgPortal.user.User;
@@ -83,8 +84,13 @@ public class CourseEntryController {
     public String setCourseAssessment(@PathVariable("id") Long id, Model model) {
         CourseEntry entry = courseService.findEntry(id);
         User user = userService.findCurrentUser();
+        CourseAssessment courseAssessment = courseService.findAssessmentByEntryAndUser(entry, user);
+        if (courseAssessment.isAssessmentSet()) {
+            return "/courses/AssessmentError";
+        }
+        courseService.setCourseAssessmentsSet(courseAssessment);
         model.addAttribute("entry", entry);
-        model.addAttribute("assessment", courseService.findAssessmentByEntryAndUser(entry, user));
+        model.addAttribute("assessment", courseAssessment);
         return "/courses/participantAssessment";
     }
 
