@@ -80,6 +80,15 @@ public class CourseEntryController {
         return "/courses/participantGrades";
     }
 
+    @GetMapping(path = "/getMyGrades")
+    public String MyGrades(@PathVariable("id") Long id, Model model) {
+        CourseEntry entry = courseService.findEntry(id);
+        User user = userService.findCurrentUser();
+        model.addAttribute("entry", entry);
+        model.addAttribute("grade", courseService.findByEntryAndUser(entry, user));
+        return "/courses/MyGrades";
+    }
+
     @GetMapping(path = "/setCourseAssessment")
     public String setCourseAssessment(@PathVariable("id") Long id, Model model) {
         CourseEntry entry = courseService.findEntry(id);
