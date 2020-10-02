@@ -53,6 +53,9 @@ public class CourseEntry {
     @Setter
     private boolean courseAssessmentsSet;
 
+    @Setter
+    private Double assessmentAverage;
+
     public CourseEntry(String courseName, String courseDescription, User lecturer, Integer maxParticipants, String roomNumber) {
         this.courseName = courseName;
         this.courseDescription = courseDescription;

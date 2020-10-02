@@ -123,7 +123,7 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
-    public void setCourseAssessment(CourseAssessment courseAssessment, Integer assessment) {
+    public void setCourseAssessment(CourseAssessment courseAssessment, Double assessment) {
         courseAssessment.setAssessment(assessment);
         assessmentRepository.save(courseAssessment);
     }
@@ -131,6 +131,23 @@ public class CourseService {
     public void setCourseAssessmentsSet(CourseAssessment courseAssessment) {
         courseAssessment.setAssessmentSet(true);
         assessmentRepository.save(courseAssessment);
+    }
+
+    public void setAssessmentAverage(CourseEntry entry) {
+        CourseAssessment[] assessmentArray = findAssessmentByEntryId(entry).toArray(CourseAssessment[]::new);
+        List<CourseAssessment> assessment = findAssessmentByEntryId(entry);
+        CourseAssessment courseAssessment;
+        Integer qtyUserWithAssessment = 0;
+        Double userAssessments = 0.0;
+        for (int i = 0; i<assessmentArray.length;i++) {
+            courseAssessment = assessmentArray[i];
+            if (courseAssessment.getAssessment() != null) {
+                qtyUserWithAssessment++;
+                userAssessments = userAssessments + courseAssessment.getAssessment();
+            }
+        }
+        entry.setAssessmentAverage(userAssessments/qtyUserWithAssessment);
+        entryRepository.save(entry);
     }
 
     public Collection<Course> getAll() {return repository.findAll();}

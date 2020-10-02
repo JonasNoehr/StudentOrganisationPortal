@@ -21,11 +21,12 @@ public class CourseAssessmentController {
     private final UserService userService;
 
     @PostMapping
-    public String setCourseAssessment(@PathVariable("entryId") Long entryId, @PathVariable("userId") Long userId, Integer assessment) {
+    public String setCourseAssessment(@PathVariable("entryId") Long entryId, @PathVariable("userId") Long userId, Double assessment) {
         CourseEntry entry = courseService.findEntry(entryId);
         User user = userService.findById(userId);
         CourseAssessment courseAssessment = courseService.findAssessmentByEntryAndUser(entry, user);
         courseService.setCourseAssessment(courseAssessment, assessment);
+        courseService.setAssessmentAverage(entry);
         return "/courses/AssessmentSuccessful";
     }
 }

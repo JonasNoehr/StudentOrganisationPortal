@@ -17,6 +17,7 @@
             <th>Teilnehmerzahl</th>
             <th>Max. Teilnehmerzahl</th>
             <th>Raum Nummer</th>
+            <th>Kursbewertung Durchschnitt</th>
             <th>Status</th>
         </tr>
         <tr th:each="entry : ${course.entries}">
@@ -26,6 +27,7 @@
             <td th:text="${entry.participants.size()}"></td>
             <td th:text="${entry.maxParticipants}"></td>
             <td th:text="${entry.roomNumber}"></td>
+            <td th:text="${entry.assessmentAverage}"></td>
             <td th:text="${course.status}"></td>
         </tr>
     </table>

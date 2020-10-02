@@ -33,13 +33,22 @@ public class CourseAssessment {
     private String courseName;
 
     @Setter
-    private Integer assessment;
+    @Getter
+    private Double assessment;
 
     @Setter
     private boolean assessmentSet;
 
     public boolean isAssessmentSet() {
         return this.assessmentSet;
+    }
+
+    public Double getAssessment() {
+        return this.assessment;
+    }
+
+    public void averageHandling(Integer qtyUser, Integer assessments) {
+
     }
 
 }
