@@ -4,6 +4,8 @@ import de.hsba.bi.StuOrgPortal.web.error.UserAlreadyExistException;
 import de.hsba.bi.StuOrgPortal.web.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ public class UserService implements UserServiceII{
 
     private UserAdapter userAdapter;
 
+    @EventListener(ApplicationStartedEvent.class)
     public User adminOnAppStart() {
 
         final User user = new User();
@@ -36,31 +39,31 @@ public class UserService implements UserServiceII{
     }
 
     @Override
-    public User createNewStudent(final UserDto accountDto) {
-        if (emailExists(accountDto.getEmail())) {
-            throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + accountDto.getEmail());
+    public User createNewStudent(final UserDto userDto) {
+        if (emailExists(userDto.getEmail())) {
+            throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + userDto.getEmail());
         }
         final User user = new User();
 
-        user.setFirstName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        user.setEmail(accountDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
         user.setRole("STUDENT");
         return userRepository.save(user);
     }
 
     @Override
-    public User createNewLecturer(final UserDto accountDto) {
-        if (emailExists(accountDto.getEmail())) {
-            throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + accountDto.getEmail());
+    public User createNewLecturer(final UserDto userDto) {
+        if (emailExists(userDto.getEmail())) {
+            throw new UserAlreadyExistException("Es existiert bereits ein Account mit dieser E-Mail Adresse: " + userDto.getEmail());
         }
         final User user = new User();
 
-        user.setFirstName(accountDto.getFirstName());
-        user.setLastName(accountDto.getLastName());
-        user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-        user.setEmail(accountDto.getEmail());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
         user.setRole("LECTURER");
         return userRepository.save(user);
     }

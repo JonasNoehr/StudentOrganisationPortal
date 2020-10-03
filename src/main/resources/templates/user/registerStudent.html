@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title ">Studierenden Anmeldung</title>
+</head>
+<body>
+<div class="container">
+    <div >
+        <h1>Registrierung für Student*innen</h1>
+        <br/>
+        <form action="#" method="post" row th:action="@{/registerStudent}" th:object="${User}">
+            <div class="form-group row">
+                <label>Vorname:</label>
+                <span class="col-sm-5">
+                    <label>
+                    <input class="form-control" th:field="*{firstName}" required="required"/>
+                    </label>
+                </span>
+                <span id="firstNameError" class="alert alert-danger col-sm-4"></span>
+            </div>
+            <div class="form-group row">
+                <label>Nachame:</label>
+                <span class="col-sm-5"><label>
+<input class="form-control"  th:field="*{lastName}" required="required"/>
+</label></span>
+                <span id="firstNameError" class="alert alert-danger col-sm-4"></span>
+            </div>
+            <div class="form-group row">
+                <label>E-Mail</label>
+                <span class="col-sm-5"><label>
+<input class="form-control"  th:field="*{email}" required="required"/>
+</label></span>
+                <span id="firstNameError" class="alert alert-danger col-sm-4"></span>
+            </div>
+            <div class="form-group row">
+                <label>Passwort</label>
+                <span class="col-sm-5"><label>
+<input type="password" class="form-control"  th:field="*{password}" required="required"/>
+</label></span>
+                <span id="firstNameError" class="alert alert-danger col-sm-4"></span>
+            </div>
+            <div class="form-group row">
+                <label>Passwort bestätigen</label>
+                <span class="col-sm-5"><label>
+<input type="password" class="form-control"  th:field="*{matchingPassword}" required="required"/>
+</label></span>
+                <span id="firstNameError" class="alert alert-danger col-sm-4"></span>
+            </div>
+            <br/>
+            <button type="submit" class="btn btn-primary">Bestätigen</button>
+        </form>
+        <br/>
+        <a th:href="@{/login}">Einloggen</a>
+    </div>
+</div>
+</body>
+</html>
