@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -33,8 +32,13 @@ public class UserService {
         userRepository.save(new User(name, passwordEncoder.encode(password), User.LECTURER_ROLE));
     }
 
-    public void createNewStudentUser(String name, String password) {
-        userRepository.save(new User(name, passwordEncoder.encode(password), User.STUDENT_ROLE));
+    public void createNewStudentUser(User user) {
+        user.setRole(User.STUDENT_ROLE);
+        userRepository.save(user);
+    }
+
+    public User userExists(String username) {
+        return userRepository.findByName(username);
     }
 
     public List<User> findAll() {

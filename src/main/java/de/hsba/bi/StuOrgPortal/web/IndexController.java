@@ -1,5 +1,6 @@
 package de.hsba.bi.StuOrgPortal.web;
 
+import de.hsba.bi.StuOrgPortal.web.user.UserForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,14 +16,13 @@ public class IndexController {
     }
 
     @RequestMapping("/login")
-    public String login(Model model) {
-
+    public String login() {
         return "users/login";
     }
 
     @RequestMapping("/register")
     public String register(Model model) {
-
+        model.addAttribute("userForm", new UserForm());
         return "users/registerStudent";
     }
 }
