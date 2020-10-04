@@ -20,8 +20,9 @@
             <td th:text="${entryAssessment.courseEntry.courseName}"></td>
             <td th:text="${entryAssessment.user.name}"></td>
             <td th:text="${entryAssessment.assessment}"></td>
-            <form method="post" class="form-inline" th:action="${'/courseAssessment/' + entryAssessment.courseEntry.id + '/' + entryAssessment.user.id}">
-                <td><input name="assessment" type="text" placeholder="Bewertung" class="form-control mr-2"></td>
+            <form method="post" class="form-inline" th:object="${courseAssessmentForm}" th:action="${'/courseAssessment/' + entryAssessment.courseEntry.id + '/' + entryAssessment.user.id}">
+                <td><input type="text" placeholder="Bewertung" class="form-control mr-2" th:classappend="${#fields.hasErrors('assessment') ? 'is-invalid' : ''}" th:field="*{assessment}">
+                    <label class="text-danger small" th:errors="*{assessment}"/></td>
                 <td><button type="submit" class="btn btn-primary">Eintragen</button></td>
             </form>
         </tr>

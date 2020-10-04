@@ -77,6 +77,7 @@ public class CourseEntryController {
         CourseEntry entry = courseService.findEntry(id);
         model.addAttribute("entry", entry);
         model.addAttribute("grade", courseService.findByEntryId(entry));
+        model.addAttribute("courseGradeForm", new CourseGradeForm());
         return "/courses/participantGrades";
     }
 
@@ -100,6 +101,7 @@ public class CourseEntryController {
         courseService.setCourseAssessmentsSet(courseAssessment);
         model.addAttribute("entry", entry);
         model.addAttribute("assessment", courseAssessment);
+        model.addAttribute("courseAssessmentForm", new CourseAssessmentForm());
         return "/courses/participantAssessment";
     }
 

@@ -7,6 +7,7 @@ import org.springframework.cglib.core.Predicate;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import de.hsba.bi.StuOrgPortal.user.User;

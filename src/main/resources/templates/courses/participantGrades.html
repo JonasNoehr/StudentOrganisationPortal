@@ -18,8 +18,9 @@
         <tr th:each="entryGrade : ${grade}">
             <td th:text="${entryGrade.user.name}"></td>
             <td th:text="${entryGrade.grade}"></td>
-            <form method="post" class="form-inline" th:action="${'/courseGrades/' + entryGrade.courseEntry.id + '/' + entryGrade.user.id}">
-                <td><input name="grade" type="text" placeholder="Note" class="form-control mr-2"></td>
+            <form method="post" class="form-inline" th:object="${courseGradeForm}" th:action="${'/courseGrades/' + entryGrade.courseEntry.id + '/' + entryGrade.user.id}">
+                <td><input type="text" placeholder="Note" class="form-control mr-2" th:classappend="${#fields.hasErrors('grade') ? 'is-invalid' : ''}" th:field="*{grade}">
+                    <label class="text-danger small" th:errors="*{grade}"/></td>
                 <td><button type="submit" class="btn btn-primary">Eintragen</button></td>
             </form>
         </tr>
