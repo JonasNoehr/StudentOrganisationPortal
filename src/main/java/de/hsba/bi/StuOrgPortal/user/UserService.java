@@ -33,6 +33,10 @@ public class UserService {
         userRepository.save(new User(name, passwordEncoder.encode(password), User.LECTURER_ROLE));
     }
 
+    public void createNewStudentUser(String name, String password) {
+        userRepository.save(new User(name, passwordEncoder.encode(password), User.STUDENT_ROLE));
+    }
+
     public List<User> findAll() {
         return userRepository.findAll();
     }
