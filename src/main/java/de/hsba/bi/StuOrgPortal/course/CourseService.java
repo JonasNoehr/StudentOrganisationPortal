@@ -45,13 +45,14 @@ public class CourseService {
         addCourseEntry(course, entry);
         addParticipant(entry, anne);
         addParticipant(entry, benedikt);
+        course.setCourseEntrySet(true);
 
         repository.save(course);
     }
 
-    public Course createCourse(String name, User currentUser) {
-        Course course = new Course(currentUser);
-        course.setName(name);
+    public Course createCourse(Course course) {
+        //Course course = new Course(currentUser);
+        //course.setName(name);
         course.setStatus(Course.DRAFT_STATUS);
         return repository.save(course);
     }
@@ -64,7 +65,12 @@ public class CourseService {
         entry.setCourse(course);
         entry.setLecturer(course.getOwner());
         course.getEntries().add(entry);
+        course.setCourseEntrySet(true);
         repository.save(course);
+    }
+
+    public void changeCourseEntry(CourseEntry entry) {
+        entryRepository.save(entry);
     }
 
     public void addParticipant(CourseEntry entry, User user) {
@@ -185,6 +191,10 @@ public class CourseService {
 
     public CourseGrade findByEntryAndUser(CourseEntry entry, User user) {
         return gradeRepository.findByCourseEntryAndAndUser(entry, user);
+    }
+
+    public CourseEntry findCourseEntryByCourseId(Long courseId) {
+        return entryRepository.findByCourseId(courseId);
     }
 
     public List<Course> findCourses(String filter) {

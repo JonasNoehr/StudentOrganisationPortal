@@ -8,8 +8,10 @@ import de.hsba.bi.StuOrgPortal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collector;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseFormConverter formConverter;
     private final UserService userService;
 
     @GetMapping
@@ -32,6 +35,7 @@ public class CourseController {
     @GetMapping(path = "/draft")
     public String showDrafts(Model model) {
         model.addAttribute("course", courseService.getAll());
+        model.addAttribute("courseForm", new CourseForm());
         return "courses/myCourseDrafts";
     }
 
@@ -69,9 +73,12 @@ public class CourseController {
     }
 
     @PostMapping
-    public String create(String name) {
+    public String create(@ModelAttribute("courseForm") @Valid CourseForm courseForm, BindingResult courseBinding, Model model) {
+        if (courseBinding.hasErrors()) {
+            return "courses/myCourseDrafts";
+        }
         User currentUser = userService.findCurrentUser();
-        Course course = courseService.createCourse(name, currentUser);
+        Course course = courseService.createCourse(formConverter.update(new Course(currentUser), courseForm));
         return "redirect:/courses/" + course.getId() + "/draft";
     }
 }

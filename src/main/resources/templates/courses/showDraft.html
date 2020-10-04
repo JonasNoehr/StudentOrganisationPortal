@@ -32,13 +32,84 @@
         </tr>
     </table>
 
-    <form method="post" class="form-inline" th:action="${'/courses/' + course.id}" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}">
-        <input name="courseName" type="text" placeholder="Name" class="form-control mr-2">
-        <input name="courseDescription" type="text" placeholder="Beschreibung" class="form-control mr-2">
-        <input name="maxParticipants" type="number" placeholder="Max. Teilnehmerzahl" class="form-control mr-2">
-        <input name="roomNumber" type="text" placeholder="Raum Nummer" class="form-control mr-2">
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
+    <div th:if="${course.ownedByCurrentUser} and ${course.statusDraft} and ${!course.courseEntrySet}">
+        <hr />
+        <h2>Neuer Eintrag</h2>
+        <form method="post" th:action="${'/courses/' + course.id}" th:object="${courseEntryForm}">
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Kursname</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseName') ? 'is-invalid' : ''}" th:field="*{courseName}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseName}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Beschreibung</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseDescription') ? 'is-invalid' : ''}" th:field="*{courseDescription}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseDescription}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Max. Teilnehmerzahl</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" min="1" max="35" th:classappend="${#fields.hasErrors('maxParticipants') ? 'is-invalid' : ''}" th:field="*{maxParticipants}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{maxParticipants}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Raum Nummer</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('roomNumber') ? 'is-invalid' : ''}" th:field="*{roomNumber}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{roomNumber}"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Anlegen</button>
+        </form>
+    </div>
+    <div th:if="${course.ownedByCurrentUser} and ${course.statusDraft} and ${course.courseEntrySet}">
+        <hr />
+        <h2>Eintrag ändern</h2>
+        <form method="post" th:action="${'/courses/' + course.id}" th:object="${courseEntryForm}">
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Kursname</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseName') ? 'is-invalid' : ''}" th:field="*{courseName}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseName}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Beschreibung</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseDescription') ? 'is-invalid' : ''}" th:field="*{courseDescription}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseDescription}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Max. Teilnehmerzahl</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" min="1" max="35" th:classappend="${#fields.hasErrors('maxParticipants') ? 'is-invalid' : ''}" th:field="*{maxParticipants}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{maxParticipants}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Raum Nummer</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('roomNumber') ? 'is-invalid' : ''}" th:field="*{roomNumber}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{roomNumber}"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ändern</button>
+        </form>
+    </div>
     <form th:action="${'/courses/' + course.id + '/post'}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}" method="post" class="form-inline">
         <button type="submit" class="btn btn-primary">Freigeben</button>
     </form>

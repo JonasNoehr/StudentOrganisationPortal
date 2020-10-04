@@ -10,8 +10,10 @@ import de.hsba.bi.StuOrgPortal.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,7 @@ import java.util.List;
 public class CourseShowController {
 
     private final CourseService courseService;
+    private final CourseFormConverter formConverter;
     private final UserService userService;
 
     @ModelAttribute("course")
@@ -52,13 +55,22 @@ public class CourseShowController {
     @GetMapping(path = "/draft")
     public String showDraft(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.getCourse(id));
+        model.addAttribute("courseEntryForm", new CourseEntryForm());
         return "courses/showDraft";
     }
 
     @PostMapping
-    public String addEntry(@PathVariable("id") Long id, CourseEntry entry) {
+    public String addEntry(@PathVariable("id") Long id, @ModelAttribute("courseEntryForm") @Valid CourseEntryForm entryForm, BindingResult entryBindingResult) {
+        if (entryBindingResult.hasErrors()) {
+            return "courses/showDraft";
+        }
         Course course = courseService.getCourse(id);
-        courseService.addCourseEntry(course, entry);
+        if (!course.isCourseEntrySet()) {
+            courseService.addCourseEntry(course, formConverter.update(new CourseEntry(), entryForm));
+        } else {
+            CourseEntry courseEntry = courseService.findCourseEntryByCourseId(id);
+            courseService.changeCourseEntry(formConverter.update(courseEntry, entryForm));
+        }
         return "redirect:/courses/" + id + "/draft";
     }
 

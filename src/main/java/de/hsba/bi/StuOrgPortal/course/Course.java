@@ -38,6 +38,9 @@ public class Course {
     @Getter
     private String status;
 
+    @Setter
+    private boolean courseEntrySet;
+
     @OneToMany(mappedBy = "course", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CourseEntry> entries;
 
@@ -76,4 +79,7 @@ public class Course {
         return this.status;
     }
 
+    public boolean isCourseEntrySet() {
+        return this.courseEntrySet;
+    }
 }
