@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class UserController {
 
+
     @GetMapping("/studentRegistration")
     public String showForm(Model model) {
         User user = new User();
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("user") User user) {
+    public String createNewStudent(@ModelAttribute("user") User user) {
         System.out.println(user);
         return "successful";
     }

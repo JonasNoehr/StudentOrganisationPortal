@@ -21,6 +21,6 @@ public abstract class UserAdapterService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }
-
+        return null;
       }
 }
