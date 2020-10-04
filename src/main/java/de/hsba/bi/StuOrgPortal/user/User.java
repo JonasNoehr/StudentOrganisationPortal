@@ -2,13 +2,18 @@ package de.hsba.bi.StuOrgPortal.user;
 
 import de.hsba.bi.StuOrgPortal.Validation.ValidPassword;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+@Setter
+@Getter
 @Entity
 public class User {
 
@@ -17,43 +22,30 @@ public class User {
     public static String ADMIN_ROLE = "ADMIN";
 
     @Id
-    @Getter
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Getter
-    @Setter
-    @NonNull
-    @Size(min = 1, message = "{Size.user.firstName}")
+    @NotNull
+    @Size(min = 1, message = "Bitte Vornamen angeben")
     private String firstName;
 
-    @Getter
-    @Setter
-    @NonNull
-    @Size(min = 1, message = "{Size.user.lastName}")
+    @NotNull
+    @Size(min = 1, message = "Bitte Nachnamen angeben")
     private String lastName;
 
-    @Getter
-    @Setter
+    @NotNull
     @ValidPassword
     private String password;
 
-    @Getter
-    @Setter
+    @NotNull
+    @ValidPassword
+    private String matchingPassword;
+
     @Email
-    @NonNull
+    @NotNull
     private String email;
 
-    @Getter
-    @Setter
     private String role;
-
-
-
-
-    public User() {
-
-    }
 
     @Override
     public String toString() {
@@ -64,7 +56,10 @@ public class User {
                 .append(", lastName=").append(lastName)
                 .append(", email=").append(email)
                 .append(", role=").append(role)
+                .append(", password=").append(password)
+                .append(", matchingPassword=").append(matchingPassword)
                 .append("]");
         return builder.toString();
     }
+
 }

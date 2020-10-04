@@ -1,9 +1,9 @@
 package de.hsba.bi.StuOrgPortal.user;
 
-import de.hsba.bi.StuOrgPortal.web.error.UserAlreadyExistException;
-import de.hsba.bi.StuOrgPortal.web.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class UserService implements UserServiceII{
+public class UserService{
 
     @Autowired
     private UserRepository userRepository;
@@ -23,6 +23,7 @@ public class UserService implements UserServiceII{
 
     private UserAdapter userAdapter;
 
+    @EventListener(ApplicationStartedEvent.class)
     public User adminOnAppStart() {
 
         final User user = new User();
@@ -34,6 +35,11 @@ public class UserService implements UserServiceII{
         user.setRole(User.ADMIN_ROLE);
         return userRepository.save(user);
     }
+
+
+
+
+    /*
 
     @Override
     public User createNewStudent(final UserDto accountDto) {
@@ -64,10 +70,10 @@ public class UserService implements UserServiceII{
         user.setRole("LECTURER");
         return userRepository.save(user);
     }
-
+    */
 
     private boolean emailExists(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByName(email) != null;
     }
 
     public List<User> findAll() {
@@ -80,11 +86,13 @@ public class UserService implements UserServiceII{
 
     public User findCurrentUser() {
 
-        return userRepository.findByEmail(userAdapter.getUsername());
+        return userRepository.findByName(userAdapter.getUsername());
     }
 
-    public User findUserByEmail(final String email)    {
-        return userRepository.findByEmail(email);
+    public User findByName(final String email)    {
+        return userRepository.findByName(email);
     }
+
+     */
 
 }

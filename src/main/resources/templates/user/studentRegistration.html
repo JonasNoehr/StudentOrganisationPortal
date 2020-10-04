@@ -10,34 +10,31 @@
     <div >
         <h1 th:utext="#{label.form.title}">form</h1>
         <br/>
-        <form action="/" method="POST" enctype="utf8" >
+        <form action="#" method="POST" th:action="@{/studentRegistration}" enctype="utf8" >
             <div class="form-group row" >
-                <label for="firstName" class="col-sm-3" th:utext="#{label.user.firstName}">Vorname</label>
-                <span class="col-sm-5"><input id="firstName" class="form-control" name="firstName" value="" required="required"/></span>
+                <label class="col-sm-3">Vorname</label>
+                <span class="col-sm-5"><input type="text" class="form-control" th:field="*{firstName}" required="required"/></span>
                 <span id="firstNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
-
             </div>
-            <div class="form-group row">
-                <label for="lastName" class="col-sm-3" th:utext="#{label.user.lastName}">Nachname</label>
-                <span class="col-sm-5"><input id="lastName" class="form-control" name="lastName" value="" required="required"/></span>
+            <div class="form-group row" >
+                <label class="col-sm-3">Nachname</label>
+                <span class="col-sm-5"><input type="text" class="form-control" th:field="*{lastName}" required="required"/></span>
                 <span id="lastNameError" class="alert alert-danger col-sm-4" style="display:none"></span>
-
             </div>
-            <div class="form-group row">
-                <label for="email" class="col-sm-3" th:utext="#{label.user.email}">E-Mail</label>
-                <span class="col-sm-5"><input id="email" type="email" class="form-control" name="email" value="" required="required"/></span>
+            <div class="form-group row" >
+                <label class="col-sm-3">E-Mail</label>
+                <span class="col-sm-5"><input type="email" class="form-control" th:field="*{email}" required="required"/></span>
                 <span id="emailError" class="alert alert-danger col-sm-4" style="display:none"></span>
-
             </div>
-            <div class="form-group row">
-                <label for="password" class="col-sm-3" th:utext="#{label.user.password}">Passwort</label>
-                <span class="col-sm-5"><input id="password" class="form-control" name="password" value="" type="password" required="required" autocomplete="new-password"/></span>
+            <div class="form-group row" >
+                <label class="col-sm-3">Passwort</label>
+                <span class="col-sm-5"><input type="password" th:field="*{password}" required="required"/></span>
                 <span id="passwordError" class="alert alert-danger col-sm-4" style="display:none"></span>
             </div>
-            <div class="form-group row">
-                <label for="matchPassword" class="col-sm-3" th:utext="#{label.user.confirmPass}">Passwort bestätigen</label>
-                <span class="col-sm-5"><input id="matchPassword" class="form-control" name="matchingPassword" value="" type="password" required="required" autocomplete="new-password"/></span>
-                <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
+            <div class="form-group row" >
+                <label class="col-sm-3">Passwort bestätigen</label>
+                <span class="col-sm-5"><input type="password" th:field="*{matchingPassword}" required="required"/></span>
+                <span id="matchingPasswordError" class="alert alert-danger col-sm-4" style="display:none"></span>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary" th:utext="#{label.form.submit}">Bestätigen</button>
