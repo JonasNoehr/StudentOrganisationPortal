@@ -26,12 +26,14 @@ public class CourseController {
     private final CourseFormConverter formConverter;
     private final UserService userService;
 
+    // Aufruf der Kurs index Seite
     @GetMapping
     public String index(Model model) {
         model.addAttribute("course", courseService.getAll());
         return "courses/index";
     }
 
+    // Aufruf Meine Entwürfe des DOzenten
     @GetMapping(path = "/draft")
     public String showDrafts(Model model) {
         model.addAttribute("course", courseService.getAll());
@@ -39,6 +41,7 @@ public class CourseController {
         return "courses/myCourseDrafts";
     }
 
+    // Aufruf meine Kurse des aktuellen Users
     @GetMapping(path = "/myCourses")
     public String showCourses(Model model) {
         User currentUser = userService.findCurrentUser();
@@ -48,6 +51,8 @@ public class CourseController {
         return "courses/myCourses";
     }
 
+    // FIlter funktion in Meine Kurse des aktuellen Users
+    // Filter nach Kurs Status möglich
     @GetMapping(path = "/filter")
     public String showCoursesWithFilter(Model model, @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         User currentUser = userService.findCurrentUser();
@@ -66,12 +71,14 @@ public class CourseController {
         return "courses/myCourses";
     }
 
+    // AUfruf Meine beendeten Kurse des DOzenten
     @GetMapping(path = "/myEndedCourses")
     public String showEndedCourses(Model model) {
         model.addAttribute("course", courseService.getAll());
         return "courses/myEndedCourses";
     }
 
+    // Erstellen neuer Kurs von einem Dozenten
     @PostMapping
     public String create(@ModelAttribute("courseForm") @Valid CourseForm courseForm, BindingResult courseBinding, Model model) {
         if (courseBinding.hasErrors()) {

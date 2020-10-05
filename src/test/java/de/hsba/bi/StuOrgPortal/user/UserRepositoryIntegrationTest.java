@@ -32,7 +32,7 @@ public class UserRepositoryIntegrationTest {
 
     @BeforeEach
     public void setUp() {
-        // delete all entries that have been created by the CourseService's init method
+        // delete all entries that have been created by the CourseService's and UserServices's init method
 
         repository.deleteAll();
         repository.flush();

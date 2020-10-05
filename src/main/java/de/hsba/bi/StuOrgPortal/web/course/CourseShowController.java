@@ -31,20 +31,15 @@ public class CourseShowController {
         if (course == null) {
             throw new NotFoundException();
         }
-        /*
-        if (!course.isOwnedByCurrentUser()) {
-            throw new ForbiddenException();
-        }
-
-         */
         return course;
     }
 
     @ExceptionHandler(NotFoundException.class)
     public String notFound() {
-        return "courses/notFound";
+        return "messages/notFound";
     }
 
+    // Kurs Seite wird aufgerufen
     @GetMapping
     public String show(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.getCourse(id));
@@ -52,6 +47,7 @@ public class CourseShowController {
         return "courses/show";
     }
 
+    // Kurs Entwurf wird aufgerufen
     @GetMapping(path = "/draft")
     public String showDraft(@PathVariable("id") Long id, Model model) {
         model.addAttribute("course", courseService.getCourse(id));
@@ -59,21 +55,26 @@ public class CourseShowController {
         return "courses/showDraft";
     }
 
+    // Kurs Eintrag wird angelegt, falls schon passiert kann dieser aktualisiert werden
     @PostMapping
     public String addEntry(@PathVariable("id") Long id, @ModelAttribute("courseEntryForm") @Valid CourseEntryForm entryForm, BindingResult entryBindingResult) {
+        // wenn Form fehlerhaft ist
         if (entryBindingResult.hasErrors()) {
             return "courses/showDraft";
         }
         Course course = courseService.getCourse(id);
+        // wenn kein EIntrag vorhanden ist wird einer angelegt
         if (!course.isCourseEntrySet()) {
             courseService.addCourseEntry(course, formConverter.update(new CourseEntry(), entryForm));
         } else {
+            // wenn EIntrag vorhanden ist kann dieser aktualisiert werden
             CourseEntry courseEntry = courseService.findCourseEntryByCourseId(id);
             courseService.changeCourseEntry(formConverter.update(courseEntry, entryForm));
         }
         return "redirect:/courses/" + id + "/draft";
     }
 
+    // Kurs wird auf Status freigegeben gesetzt
     @PostMapping(path = "/post")
     public String post(@PathVariable("id") Long id) {
         Course course = courseService.getCourse(id);
@@ -81,6 +82,7 @@ public class CourseShowController {
         return "redirect:/courses/draft";
     }
 
+    // Kurs wird auf Status Gestartet gesetzt
     @PostMapping(path = "/start")
     public String start(@PathVariable("id") Long id) {
         Course course = courseService.getCourse(id);
@@ -88,6 +90,7 @@ public class CourseShowController {
         return "redirect:/courses/myCourses";
     }
 
+    // Kurs wird auf Status Beendet gesetzt
     @PostMapping(path = "/end")
     public String end(@PathVariable("id") Long id) {
         Course course = courseService.getCourse(id);
@@ -95,6 +98,7 @@ public class CourseShowController {
         return "redirect:/courses/myEndedCourses";
     }
 
+    // Kurs löschen
     @PostMapping(path = "/delete")
     public String delete(@PathVariable("id") Long id) {
         getCourse(id);

@@ -33,6 +33,9 @@ public class CourseService {
             // prevent initialisation if DB is not empty
             return;
         }
+
+        // Anlegen Testdaten beim Erststart
+
         userService.init();
         List<User> users = userService.findAll();
         User zoe = users.get(5);
@@ -51,17 +54,13 @@ public class CourseService {
         repository.save(course);
     }
 
+    // Anlegen neuer Kurs, er ist dann im Status Entwurf
     public Course createCourse(Course course) {
-        //Course course = new Course(currentUser);
-        //course.setName(name);
         course.setStatus(Course.DRAFT_STATUS);
         return repository.save(course);
     }
 
-    public Course getCourse(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
+    // Kurs Eintrag erstellen, der Dozent der den Kurs angelegt hat, wird als "owner" eingetragen
     public void addCourseEntry(Course course, CourseEntry entry) {
         entry.setCourse(course);
         entry.setLecturer(course.getOwner());
@@ -70,35 +69,43 @@ public class CourseService {
         repository.save(course);
     }
 
+    // Änderungen an einem Kurs Eintrag werden gespeichert
     public void changeCourseEntry(CourseEntry entry) {
         entryRepository.save(entry);
     }
 
+    // EIn Teilnehmer wird zum Kurs hinzugefügt
     public void addParticipant(CourseEntry entry, User user) {
         entry.getParticipants().add(user);
         entryRepository.save(entry);
     }
 
+    // Ein Teilnehmer wird vom Kurs wieder entfernt
     public void removeParticipant(CourseEntry entry, User user) {
         entry.getParticipants().remove(user);
         entryRepository.save(entry);
     }
 
+    // Status des Kurses auf Freigegeben gesetzt
     public void postCourseEntry(Course course) {
         course.setStatus(Course.POSTED_STATUS);
         repository.save(course);
     }
 
+    // Status des Kurses auf Gestartet gesetzt
     public void startCourseEntry(Course course) {
         course.setStatus(Course.STARTED_STATUS);
         repository.save(course);
     }
 
+    // Status des Kurses auf Beendet gesetzt
     public void endCourseEntry(Course course) {
         course.setStatus(Course.ENDED_STATUS);
         repository.save(course);
     }
 
+    // Nachdem der Kurs beendet wurde und kein Teilnehmer mehr hinzugefügt oder entfernt werden kann,
+    // wird für jeden Teilnehmer ein Eintrag in der Kurs Note erstellt
     public void setCourseGrades(CourseEntry entry) {
         entry.nextUser = 0;
         for (int i = 0; i<entry.getParticipants().size();i++) {
@@ -112,11 +119,14 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
+    // Note für den Studenten wird eingetragen
     public void setUserGrade(CourseGrade courseGrade, Double grade) {
         courseGrade.setGrade(grade);
         gradeRepository.save(courseGrade);
     }
 
+    // Nachdem der Kurs beendet wurde und kein Teilnehmer mehr hinzugefügt oder entfernt werden kann,
+    // wird für jeden Teilnehmer ein Eintrag in der Kurs Bewertung erstellt
     public void setCourseAssessments(CourseEntry entry) {
         entry.nextUser = 0;
         for (int i = 0; i<entry.getParticipants().size();i++) {
@@ -130,16 +140,19 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
+    // Die Bewertung wird gespeichert
     public void setCourseAssessment(CourseAssessment courseAssessment, Double assessment) {
         courseAssessment.setAssessment(assessment);
         assessmentRepository.save(courseAssessment);
     }
 
+    // Boolean um später zu prüfen, ob "setCourseAssessments" bereits durchlaufen wurde
     public void setCourseAssessmentsSet(CourseAssessment courseAssessment) {
         courseAssessment.setAssessmentSet(true);
         assessmentRepository.save(courseAssessment);
     }
 
+    // Der Schnitt der Kursbewertung wird bei jeder neuen Bewertung neu berechnet und gespeichert
     public void setAssessmentAverage(CourseEntry entry) {
         CourseAssessment[] assessmentArray = findAssessmentByEntryId(entry).toArray(CourseAssessment[]::new);
         CourseAssessment courseAssessment;
@@ -156,6 +169,7 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
+    // Der Notendurchschnitt wird bei jeder neuen Notenvergabe neu berechnet und gespeichert
     public void setGradeAverage(CourseEntry entry) {
         CourseGrade[] gradeArray = findByEntryId(entry).toArray(CourseGrade[]::new);
         CourseGrade courseGrade;
@@ -172,36 +186,51 @@ public class CourseService {
         entryRepository.save(entry);
     }
 
+    // Kurs über id suchen
+    public Course getCourse(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    // Alle Kurse finden
     public Collection<Course> getAll() {return repository.findAll();}
 
+    // Alle Kurs EInträge finden
     public Collection<CourseEntry> getAllEntries() {return entryRepository.findAll();}
 
+    // Kurs löschen, über id
     public void delete(Long id) { repository.deleteById(id);}
 
+    // Kurs EIntrag über id finden
     public CourseEntry findEntry(Long id) {
         return entryRepository.findById(id).orElse(null);
     }
 
+    // Alle Noten eines Kurses finden
     public List<CourseGrade> findByEntryId(CourseEntry entry) {
         return gradeRepository.findByCourseEntry(entry);
     }
 
+    // Alle Bewertungen eines Kurses finden
     public List<CourseAssessment> findAssessmentByEntryId(CourseEntry entry) {
         return assessmentRepository.findByCourseEntry(entry);
     }
 
+    // Eine Note für einen bestimmten User eines bestimmten Kurses finden
     public CourseGrade findByEntryAndUser(CourseEntry entry, User user) {
         return gradeRepository.findByCourseEntryAndAndUser(entry, user);
     }
 
+    // Kurs EIntrag über Kurs id finden
     public CourseEntry findCourseEntryByCourseId(Long courseId) {
         return entryRepository.findByCourseId(courseId);
     }
 
+    // Kurse über Status filter finden
     public List<Course> findCourses(String filter) {
         return filter.isBlank() ? repository.findAll() : repository.findByStatus(filter);
     }
 
+    // Bewertung eines bestimmten users und eines bestimmten Kurses finden
     public CourseAssessment findAssessmentByEntryAndUser(CourseEntry entry, User user) {
         return assessmentRepository.findByCourseEntryAndAndUser(entry, user);
     }

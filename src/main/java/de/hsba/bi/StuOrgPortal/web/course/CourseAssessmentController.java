@@ -2,7 +2,6 @@ package de.hsba.bi.StuOrgPortal.web.course;
 
 import de.hsba.bi.StuOrgPortal.course.CourseAssessment;
 import de.hsba.bi.StuOrgPortal.course.CourseEntry;
-import de.hsba.bi.StuOrgPortal.course.CourseGrade;
 import de.hsba.bi.StuOrgPortal.course.CourseService;
 import de.hsba.bi.StuOrgPortal.user.User;
 import de.hsba.bi.StuOrgPortal.user.UserService;
@@ -26,11 +25,13 @@ public class CourseAssessmentController {
     private final CourseFormConverter formConverter;
     private final UserService userService;
 
+    // bewertung eines Teilnehmers für einen Kurs wird gesetzt, Durschnitt wird neu berechnet
     @PostMapping
     public String setCourseAssessment(@PathVariable("entryId") Long entryId, @PathVariable("userId") Long userId, Double assessment, Model model, @ModelAttribute("courseAssessmentForm") @Valid CourseAssessmentForm assessmentForm, BindingResult assessmentBindingResult) {
         CourseEntry entry = courseService.findEntry(entryId);
         User user = userService.findById(userId);
         CourseAssessment courseAssessment = courseService.findAssessmentByEntryAndUser(entry, user);
+        // wenn Fehler in der Form auftreten
         if (assessmentBindingResult.hasErrors()) {
             model.addAttribute("entry", entry);
             model.addAttribute("assessment", courseAssessment);
@@ -38,6 +39,6 @@ public class CourseAssessmentController {
         }
         courseService.setCourseAssessment(formConverter.update(courseAssessment, assessmentForm), assessment);
         courseService.setAssessmentAverage(entry);
-        return "/courses/AssessmentSuccessful";
+        return "/messages/AssessmentSuccessful";
     }
 }
