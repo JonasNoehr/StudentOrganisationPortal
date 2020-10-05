@@ -20,6 +20,14 @@ public class IndexController {
         return "users/login";
     }
 
+    @RequestMapping("/information")
+    public String information() {
+        return "/information";
+    }
+
+    @RequestMapping("/privacy")
+    public String privacy() {return "/privacy";}
+
     @RequestMapping("/register")
     public String register(Model model) {
         model.addAttribute("userForm", new UserForm());

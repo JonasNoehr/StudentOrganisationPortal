@@ -35,7 +35,6 @@ public class CourseService {
         }
 
         // Anlegen Testdaten beim Erststart
-
         userService.init();
         List<User> users = userService.findAll();
         User zoe = users.get(5);
@@ -50,7 +49,58 @@ public class CourseService {
         addParticipant(entry, anne);
         addParticipant(entry, benedikt);
         course.setCourseEntrySet(true);
+        repository.save(course);
 
+        course = new Course(zoe);
+        course.setName("Deutsch");
+        course.setStatus(Course.STARTED_STATUS);
+        entry = new CourseEntry("Deutsch", "Deutsch BWL", zoe, 25, "R102");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
+        course.setCourseEntrySet(true);
+        repository.save(course);
+
+        course = new Course(zoe);
+        course.setName("Deutsch 2");
+        course.setStatus(Course.STARTED_STATUS);
+        entry = new CourseEntry("Deutsch 2", "Deutsch", zoe, 25, "R302");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
+        course.setCourseEntrySet(true);
+        repository.save(course);
+
+        course = new Course(zoe);
+        course.setName("Englisch");
+        course.setStatus(Course.DRAFT_STATUS);
+        entry = new CourseEntry("Englisch", "Englisch BWL", zoe, 15, "R602");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
+        course.setCourseEntrySet(true);
+        repository.save(course);
+
+        course = new Course(zoe);
+        course.setName("Englisch 2");
+        course.setStatus(Course.DRAFT_STATUS);
+        entry = new CourseEntry("Englisch 2", "Englisch", zoe, 15, "R502");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
+        course.setCourseEntrySet(true);
+        repository.save(course);
+
+        course = new Course(zoe);
+        course.setName("Programmierung");
+        course.setStatus(Course.ENDED_STATUS);
+        entry = new CourseEntry("Programmierung", "Programmierung WI", zoe, 15, "R602");
+        addCourseEntry(course, entry);
+        addParticipant(entry, anne);
+        addParticipant(entry, benedikt);
+        setCourseGrades(entry);
+        setCourseAssessments(entry);
+        course.setCourseEntrySet(true);
         repository.save(course);
     }
 

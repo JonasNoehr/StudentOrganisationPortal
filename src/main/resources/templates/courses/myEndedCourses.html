@@ -11,11 +11,20 @@
         <h1>Meine beendeten Kurse</h1>
     </div>
 
-    <ul class="list-unstyled">
-        <li th:each="course : ${course}">
-            <a th:href="${'/courses/' + course.id}" th:text="${course.name}" th:if="${course.ownedByCurrentUser} and ${course.statusEnded}"></a>
-        </li>
-    </ul>
+    <table class="table">
+        <tr>
+            <th>Kursname</th>
+            <th>Beschreibung</th>
+            <th>Teilnehmerzahl</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="course : ${course}" th:if="${course.ownedByCurrentUser} and ${course.statusEnded}">
+            <td><a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a></td>
+            <td th:each="entry : ${course.entries}" th:text="${entry.courseDescription}"></td>
+            <td th:each="entry : ${course.entries}" th:text="${entry.participants.size()}"></td>
+            <td th:text="${course.status}"></td>
+        </tr>
+    </table>
     <hr />
     <p class="small">
         <a href="/courses/">Index</a>

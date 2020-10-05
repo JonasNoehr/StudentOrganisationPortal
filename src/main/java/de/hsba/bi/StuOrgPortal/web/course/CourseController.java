@@ -30,6 +30,7 @@ public class CourseController {
     @GetMapping
     public String index(Model model) {
         model.addAttribute("course", courseService.getAll());
+        model.addAttribute("entry", courseService.getAllEntries());
         return "courses/index";
     }
 
@@ -37,6 +38,7 @@ public class CourseController {
     @GetMapping(path = "/draft")
     public String showDrafts(Model model) {
         model.addAttribute("course", courseService.getAll());
+        model.addAttribute("entry", courseService.getAllEntries());
         model.addAttribute("courseForm", new CourseForm());
         return "courses/myCourseDrafts";
     }
@@ -75,6 +77,7 @@ public class CourseController {
     @GetMapping(path = "/myEndedCourses")
     public String showEndedCourses(Model model) {
         model.addAttribute("course", courseService.getAll());
+        model.addAttribute("entry", courseService.getAllEntries());
         return "courses/myEndedCourses";
     }
 
