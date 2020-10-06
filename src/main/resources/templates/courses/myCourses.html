@@ -11,11 +11,12 @@
         <h1>Meine Kurse</h1>
     </div>
     <ul class="list-unstyled">
-        <div sec:authorize="hasRole('STUDENT')">
+        <div>
             <form th:action="@{/courses/filter}" method="get" class="form-inline">
                 <label for="status">Filter:</label>
 
                 <select type="text" name="filter" th:value="${filter}" id="status">
+                    <option value="ALL">Alle</option>
                     <option value="STARTED_STATUS">Gestartet</option>
                     <option value="ENDED_STATUS">Beendet</option>
                     <option value="POSTED_STATUS">Freigegeben</option>

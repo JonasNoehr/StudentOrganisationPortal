@@ -65,6 +65,11 @@ public class CourseController {
             statusFilter = Course.ENDED_STATUS;
         } else if (filter.equals("STARTED_STATUS")) {
             statusFilter = Course.STARTED_STATUS;
+        } else if (filter.equals("ALL")){
+            model.addAttribute("course", courseService.getAll());
+            model.addAttribute("entry", courseService.getAllEntries());
+            model.addAttribute("user", currentUser);
+            return "courses/myCourses";
         }
         model.addAttribute("course", courseService.findCourses(statusFilter));
         model.addAttribute("entry", courseService.getAllEntries());
