@@ -19,7 +19,7 @@
             <th>Status</th>
         </tr>
         <tr th:each="course : ${course}" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}">
-            <td><a th:href="${'/courses/' + course.id}" th:text="${course.name}"></a></td>
+            <td><a th:href="${'/courses/' + course.id + '/draft'}" th:text="${course.name}"></a></td>
             <td th:each="entry : ${course.entries}" th:text="${entry.courseDescription}"></td>
             <td th:each="entry : ${course.entries}" th:text="${entry.participants.size()}"></td>
             <td th:text="${course.status}"></td>

@@ -8,6 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.List;
 import de.hsba.bi.StuOrgPortal.user.User;
@@ -215,7 +216,7 @@ public class CourseService {
                 userAssessments = userAssessments + courseAssessment.getAssessment();
             }
         }
-        entry.setAssessmentAverage(userAssessments/qtyUserWithAssessment);
+        entry.setAssessmentAverage(round((userAssessments/qtyUserWithAssessment), 2));
         entryRepository.save(entry);
     }
 
@@ -232,7 +233,7 @@ public class CourseService {
                 userGrades = userGrades + courseGrade.getGrade();
             }
         }
-        entry.setGradeAverage(userGrades/qtyUserWithGrade);
+        entry.setGradeAverage(round((userGrades/qtyUserWithGrade), 2));
         entryRepository.save(entry);
     }
 
@@ -283,5 +284,11 @@ public class CourseService {
     // Bewertung eines bestimmten users und eines bestimmten Kurses finden
     public CourseAssessment findAssessmentByEntryAndUser(CourseEntry entry, User user) {
         return assessmentRepository.findByCourseEntryAndAndUser(entry, user);
+    }
+
+    // Methode um Fließkommazahlen zu runden
+    private double round(double value, int decimalPoints) {
+        double d = Math.pow(10, decimalPoints);
+        return Math.round(value * d) / d;
     }
 }

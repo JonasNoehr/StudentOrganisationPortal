@@ -2,7 +2,6 @@ package de.hsba.bi.StuOrgPortal.web.user;
 
 import de.hsba.bi.StuOrgPortal.user.User;
 import de.hsba.bi.StuOrgPortal.user.UserService;
-import de.hsba.bi.StuOrgPortal.web.course.CourseEntryForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -65,6 +64,6 @@ public class UserController {
             return "users/registerStudent";
         }
         userService.createNewStudentUser(formConverter.update(new User(), userForm));
-        return "users/successfulRegistration";
+        return "messages/successfulRegistration";
     }
 }
