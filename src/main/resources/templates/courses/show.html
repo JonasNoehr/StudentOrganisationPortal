@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <table th:if="${course != null and !course.entries.empty}" class="table">
+        <div class="my-4">
+            <div th:replace="layout/menu :: menu"></div>
+            <h1 th:text="${'Kurs ' + course.name}"></h1>
+        </div>
+        <tr>
+            <th>Kursname</th>
+            <th>Beschreibung</th>
+            <th>Dozent</th>
+            <th>Teilnehmerzahl</th>
+            <th>Max. Teilnehmerzahl</th>
+            <th>Raum Nummer</th>
+            <th>Kursbewertung Durchschnitt</th>
+            <th>Notendurchschnitt</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="entry : ${course.entries}">
+            <td th:text="${entry.courseName}"></td>
+            <td th:text="${entry.courseDescription}"></td>
+            <td th:text="${entry.lecturer}"></td>
+            <td th:text="${entry.participants.size()}"></td>
+            <td th:text="${entry.maxParticipants}"></td>
+            <td th:text="${entry.roomNumber}"></td>
+            <td th:text="${entry.assessmentAverage}"></td>
+            <td th:text="${entry.gradeAverage}"></td>
+            <td th:text="${course.status}"></td>
+        </tr>
+    </table>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participate(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${course.statusPosted} and ${!course.statusStarted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Teilnehmen</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/unsubscribe(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${course.statusPosted} OR ${course.statusStarted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Vom Kurs abmelden</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/setGrades(id=${entry.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.StatusEnded}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Noten eintragen</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/setAssessment(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${entry.isParticipant(user)} and ${course.StatusEnded}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Kurs bewerten</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/getMyGrades(id=${entry.id})}" sec:authorize="hasRole('STUDENT')" th:if="${entry.isParticipant(user)} and ${course.StatusEnded}" method="get" class="form-inline">
+        <button type="submit" class="btn btn-primary">Meine Note</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/courses/{id}/start(id=${course.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusPosted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Kurs starten</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/courses/{id}/end(id=${course.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusStarted}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Kurs beenden</button>
+    </form>
+    <form th:each="entry : ${course.entries}" th:action="@{/entries/{id}/participants(id=${entry.id})}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser}" method="get" class="form-inline">
+        <button type="submit" class="btn btn-primary">Teilnehmerliste</button>
+    </form>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
+</div>
+</body>
+</html>

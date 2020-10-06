@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<body>
+<div layout:fragment="content">
+    <div class="my-4">
+        <div th:replace="layout/menu :: menu"></div>
+        <h1 th:text="${'Kurs ' + course.name}"></h1>
+        <form method="post" class="form" th:action="${'/courses/' + course.id + '/delete'}" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}">
+            <button type="submit" class="btn btn-danger">Löschen</button>
+        </form>
+    </div>
+
+    <table th:if="${course != null and !course.entries.empty}" class="table">
+        <tr>
+            <th>Kursname</th>
+            <th>Beschreibung</th>
+            <th>Dozent</th>
+            <th>Max. Teilnehmerzahl</th>
+            <th>Raum Nummer</th>
+            <th>Status</th>
+        </tr>
+        <tr th:each="entry : ${course.entries}">
+            <td th:text="${entry.courseName}"></td>
+            <td th:text="${entry.courseDescription}"></td>
+            <td th:text="${entry.lecturer}"></td>
+            <td th:text="${entry.maxParticipants}"></td>
+            <td th:text="${entry.roomNumber}"></td>
+            <td th:text="${course.status}"></td>
+        </tr>
+    </table>
+
+    <div th:if="${course.ownedByCurrentUser} and ${course.statusDraft} and ${!course.courseEntrySet}">
+        <hr />
+        <h2>Neuer Eintrag</h2>
+        <form method="post" th:action="${'/courses/' + course.id}" th:object="${courseEntryForm}">
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Kursname</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseName') ? 'is-invalid' : ''}" th:field="*{courseName}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseName}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Beschreibung</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseDescription') ? 'is-invalid' : ''}" th:field="*{courseDescription}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseDescription}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Max. Teilnehmerzahl</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" min="1" max="35" th:classappend="${#fields.hasErrors('maxParticipants') ? 'is-invalid' : ''}" th:field="*{maxParticipants}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{maxParticipants}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Raum Nummer</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('roomNumber') ? 'is-invalid' : ''}" th:field="*{roomNumber}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{roomNumber}"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Anlegen</button>
+        </form>
+    </div>
+    <div th:if="${course.ownedByCurrentUser} and ${course.statusDraft} and ${course.courseEntrySet}">
+        <hr />
+        <h2>Eintrag ändern</h2>
+        <form method="post" th:action="${'/courses/' + course.id}" th:object="${courseEntryForm}">
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Kursname</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseName') ? 'is-invalid' : ''}" th:field="*{courseName}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseName}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Beschreibung</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('courseDescription') ? 'is-invalid' : ''}" th:field="*{courseDescription}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{courseDescription}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Max. Teilnehmerzahl</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" min="1" max="35" th:classappend="${#fields.hasErrors('maxParticipants') ? 'is-invalid' : ''}" th:field="*{maxParticipants}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{maxParticipants}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-form-label col-form-label-sm col-sm-2">Raum Nummer</label>
+                <div class="col-sm-10">
+                    <input class="form-control form-control-sm" th:classappend="${#fields.hasErrors('roomNumber') ? 'is-invalid' : ''}" th:field="*{roomNumber}"
+                           type="text"/>
+                    <label class="text-danger small" th:errors="*{roomNumber}"/>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ändern</button>
+        </form>
+    </div>
+    <form th:action="${'/courses/' + course.id + '/post'}" sec:authorize="hasRole('LECTURER')" th:if="${course.ownedByCurrentUser} and ${course.statusDraft}" method="post" class="form-inline">
+        <button type="submit" class="btn btn-primary">Freigeben</button>
+    </form>
+    <hr />
+    <p class="small">
+        <a href="/courses/">Index</a>
+    </p>
+</div>
+</body>
+</html>
