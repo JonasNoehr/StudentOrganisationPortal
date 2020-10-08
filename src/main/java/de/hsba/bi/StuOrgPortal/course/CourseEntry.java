@@ -57,6 +57,7 @@ public class CourseEntry {
     private Double assessmentAverage;
 
     @Setter
+    @Getter
     private Double gradeAverage;
 
     public CourseEntry(String courseName, String courseDescription, User lecturer, Integer maxParticipants, String roomNumber) {
@@ -96,6 +97,9 @@ public class CourseEntry {
         return null;
     }
 
+    public Double getGradeAverage(){
+        return this.gradeAverage;
+    }
 
     public boolean isParticipant(User user) {
         return this.participants != null && this.getParticipants().contains(user);
